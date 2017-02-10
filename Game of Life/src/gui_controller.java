@@ -24,8 +24,8 @@ public class gui_controller implements Initializable {
 	}
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+	public void initialize(java.net.URL location,
+            java.util.ResourceBundle resources) {
 		
 	}
 	

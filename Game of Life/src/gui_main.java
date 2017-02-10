@@ -8,7 +8,7 @@ public class gui_main extends Application {
 	
 	public void start(Stage primaryStage) throws Exception {
 		
-		Parent root = FXMLLoader.load(getClass().getResource("gol_gui2.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("gol_gui3.fxml"));
 		
 		Scene scene = new Scene(root, 800, 600);
 		

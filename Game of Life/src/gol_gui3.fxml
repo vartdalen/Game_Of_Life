@@ -10,28 +10,29 @@
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Slider?>
 
-<!-- Sett opp 2x2 grid layout -->
-<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="gui_main">
+
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="gui_controller">
 	
-	<!-- Sett opp menybar -->
+	
 	<VBox prefWidth="800" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" GridPane.rowSpan="1"></VBox>
 	
-	<!-- Sett opp "canvas" for å tegne grafikk -->
-	<HBox styleClass="graphics" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="1" GridPane.rowSpan="1">
+	
+	<HBox styleClass="gol_canvas" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="1" GridPane.rowSpan="1">
 		<stylesheets><URL value="@styling.css" /></stylesheets>
-		<Canvas fx:id="graphics" width="700" height="600" />
+		<Canvas fx:id="gol_canvas" width="700" height="600" />
 	</HBox>
 	
-	<!-- Sett opp ulike knapper og slidere -->
+	
 	<VBox GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="1" GridPane.rowSpan="1" spacing="20">
 		<padding><Insets top="30" right="20" bottom="0" left="20"/></padding>
-		<Button fx:id="btnStart" text="Start"/>
-		<Button fx:id="btnStop" text="Stop"/>
+		<Button fx:id="btnStart" text="Start" onAction="#exitEvent"/>
+		<Button fx:id="btnStop" text="Stop" onAction="#heyEvent"/>
 		<Button fx:id="btnClear" text="Clear"/>
 		<Label fx:id="label_size" text="Size"/>
 		<Slider value="5.0" max="100.0" min="1.0" fx:id="slider_size"/>
 		<Label fx:id="labelSize" text="Speed"/>
-		<Slider value="5.0" max="100.0" min="1.0" fx:id="slider_size"/>
+		<Slider value="5.0" max="100.0" min="1.0" fx:id="slider_speed"/>
+		<Button fx:id="btnImport" text="Import"/>
 	</VBox>
 	
 </GridPane>

@@ -12,16 +12,16 @@ public class gui_main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
-		Group root = new Group();
-		Parent ioi = FXMLLoader.load(getClass().getResource("gol_gui3.fxml"));
+//		Group root = new Group();
+		Parent root = FXMLLoader.load(getClass().getResource("gol_gui3.fxml"));
 		
 		Scene scene = new Scene(root, 800, 600);
 		
-		Canvas canvas = new Canvas(700, 600);
-		GraphicsContext gc = canvas.getGraphicsContext2D();
-		drawShapes(gc);
-		root.getChildren().add(canvas);
-		
+//		Canvas canvas = new Canvas(700, 600);
+//		GraphicsContext gc = canvas.getGraphicsContext2D();
+//		drawShapes(gc);
+//		root.getChildren().add(canvas);
+//		Heyhey
 		
 		primaryStage.setTitle("Game of Life");
 		primaryStage.setScene(scene);
@@ -29,9 +29,9 @@ public class gui_main extends Application {
 		
 	}
 	
-	private void drawShapes(GraphicsContext gc) {
-		gc.setFill(Color.GREEN);
-	}
+//	private void drawShapes(GraphicsContext gc) {
+//		gc.setFill(Color.GREEN);
+//	}
 	
 	public static void main(String[] args) {
 		launch(args);

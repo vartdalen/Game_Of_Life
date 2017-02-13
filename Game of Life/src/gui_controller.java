@@ -19,7 +19,7 @@ public class gui_controller implements Initializable {
 
 	public void helloEvent(ActionEvent event) {
 		
-		System.out.println("hello");
+		System.out.println("hello*2");
 		
 	}
 

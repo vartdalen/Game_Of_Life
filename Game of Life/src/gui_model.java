@@ -1,6 +1,6 @@
-/*
-public class gui_model {
 
-hello world
-test123123
+/*public class gui_model {
+
+	public class long2DArray
+	
 }*/

@@ -26,12 +26,12 @@
 	
 	<VBox GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="1" GridPane.rowSpan="1" spacing="20">
 		<padding><Insets top="30" right="20" bottom="0" left="20"/></padding>
-		<Button fx:id="btnStart" text="Start" onAction="#exitEvent"/>
-		<Button fx:id="btnStop" text="Stop" onAction="#heyEvent"/>
+		<Button fx:id="btnStart" text="Start"/>
+		<Button fx:id="btnStop" text="Stop">
 		<Button fx:id="btnClear" text="Clear"/>
 		<Label fx:id="label_size" text="Size"/>
 		<Slider value="5.0" max="100.0" min="1.0" fx:id="slider_size" onMouseDragged="#changeSize"/>
-		<Label fx:id="labelSize" text="Speed"/>
+		<Label fx:id="label_speed" text="Speed"/>
 		<Slider value="5.0" max="100.0" min="1.0" fx:id="slider_speed"/>
 		<Button fx:id="btnImport" text="Import"/>
 	</VBox>

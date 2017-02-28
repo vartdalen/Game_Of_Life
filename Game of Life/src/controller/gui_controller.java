@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 //import javafx.scene.control.Button;
 //import javafx.scene.control.ColorPicker;
 //import javafx.scene.control.MenuBar;
@@ -35,10 +36,10 @@ public class gui_controller implements Initializable {
 		}
 	}
 	
-//	@FXML private Button btnStart;
-//	@FXML private Button btnStop;
-//	@FXML private Button btnClear;
-//	@FXML private Button btnImport;
+	@FXML private Button btnStart;
+	@FXML private Button btnStop;
+	@FXML private Button btnClear;
+	@FXML private Button btnImport;
 	@FXML private Slider slider_size;
 	@FXML private Slider slider_speed;
 	@FXML private Canvas gol_canvas;

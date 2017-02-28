@@ -1,3 +1,4 @@
+package model;
 
 import javafx.application.*;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +13,7 @@ public class gui_main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
-		Parent root = FXMLLoader.load(getClass().getResource("gol_gui3.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/view/gol_gui3.fxml"));
 		
 		Scene scene = new Scene(root);
 		

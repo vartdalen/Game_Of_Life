@@ -1,3 +1,4 @@
+package controller;
 //import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +49,13 @@ public class gui_controller implements Initializable {
 		slider_size.setValue(5.0);
 		slider_speed.setValue(5.0);
 		plist = new ArrayList<Point>();
-		draw();
+		draw(size);
 	}
 	
-	private void draw() { //tegner opp mønster
+	private void draw(double size) { //tegner opp mønster
 		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
 		Point p = new Point();
-		
+		gc.clearRect(0, 0, gol_canvas.widthProperty().doubleValue(), gol_canvas.heightProperty().doubleValue());
 		for(int i = 0; i<board.length; i++) {
 			for(int j = 0; j<board[i].length; j++){
 				if(board[i][j] == 1) {
@@ -95,10 +96,13 @@ public class gui_controller implements Initializable {
 		 * */
 	}
 	
-	public void changeSize(ActionEvent e) {
+	@FXML
+	public void changeSize(MouseEvent e) {
 		/*
 		 * Endre størrelse på cellene
 		 * */
+		double newSize = slider_size.getValue();
+		draw(newSize);
 	}
 	
 	public void importBtnClicked(ActionEvent e) {

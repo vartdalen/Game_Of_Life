@@ -19,11 +19,11 @@ import javafx.scene.paint.Color;
 
 public class gui_controller implements Initializable {
 
-	private byte [][] board = { //Mønster
-			{1,0,0,1}, 
-			{0,1,1,0}, 
-			{0,1,1,0}, 
-			{1,0,0,1}
+	private boolean [][] board = { //Mønster
+			{true,false,false,true}, 
+			{false,true,true,false}, 
+			{false,true,true,false}, 
+			{true,false,false,true}
 		   };
 	
 	private double size = 70.0; //Cell-size
@@ -59,7 +59,7 @@ public class gui_controller implements Initializable {
 		gc.clearRect(0, 0, gol_canvas.widthProperty().doubleValue(), gol_canvas.heightProperty().doubleValue());
 		for(int i = 0; i<board.length; i++) {
 			for(int j = 0; j<board[i].length; j++){
-				if(board[i][j] == 1) {
+				if(board[i][j] == true) {
 				p.y = i*size;
 				p.x = j*size;
 				p.draw(gc, size);

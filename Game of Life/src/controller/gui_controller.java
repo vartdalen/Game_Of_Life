@@ -65,7 +65,7 @@ public class gui_controller implements Initializable {
 				}
 			}
 		}
-		gc.strokeText("Hello canvas", 150, 450);
+		
 //		gc.clearRect(0, 0, gol_canvas.widthProperty().doubleValue(), gol_canvas.heightProperty().doubleValue());
 //		for( Point p : plist) {
 //			p.draw(gc, Color.RED,slider_size.getValue());

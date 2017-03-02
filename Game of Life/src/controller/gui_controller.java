@@ -18,7 +18,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import model.Cell;
 import model.GameBoard;
-import model.Generation;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

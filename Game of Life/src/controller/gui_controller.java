@@ -16,25 +16,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import model.Cell;
+import model.GameBoard;
+import model.Generation;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 
 public class gui_controller implements Initializable {
 
-	private boolean [][] board = { //Mønster
-			{true,false,false,true}, 
-			{false,true,true,false}, 
-			{false,true,true,false}, 
-			{true,false,false,true}
-		   };
-	
-	private double size = 70.0; //Cell-size
-	
-	private static class Point {
-		public double x,y;
-		public void draw(GraphicsContext gc, double size) {
-			gc.setFill(Color.GREEN);
-			gc.fillRect(x, y, size, size);
-		}
-	}
 	
 	@FXML private Button btnStart;
 	@FXML private Button btnStop;
@@ -43,34 +33,36 @@ public class gui_controller implements Initializable {
 	@FXML private Slider slider_size;
 	@FXML private Slider slider_speed;
 	@FXML private Canvas gol_canvas;
-	private List<Point> plist;
+	private List<Cell> clist;
 	
 	public void initialize(java.net.URL location,
             java.util.ResourceBundle resources) {
 		slider_size.setValue(5.0);
 		slider_speed.setValue(5.0);
-		plist = new ArrayList<Point>();
-		draw(size);
+		clist = new ArrayList<Cell>();
+		draw(20.0);
 	}
 	
 	private void draw(double size) { //tegner opp mønster
 		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
-		Point p = new Point();
+		Cell cell = new Cell();
+		GameBoard board = new GameBoard();
+		boolean [][]gameBoard = board.getBoard();
+		
 		gc.clearRect(0, 0, gol_canvas.widthProperty().doubleValue(), gol_canvas.heightProperty().doubleValue());
-		for(int i = 0; i<board.length; i++) {
-			for(int j = 0; j<board[i].length; j++){
-				if(board[i][j] == true) {
-				p.y = i*size;
-				p.x = j*size;
-				p.draw(gc, size);
+		for(int i = 0; i<gameBoard.length; i++) {
+			for(int j = 0; j<gameBoard[i].length; j++){
+				if(gameBoard[i][j] == true) {
+				cell.y = i*size;
+				cell.x = j*size;
+				cell.draw(gc, size);
 				}
 			}
 		}
 		
-//		gc.clearRect(0, 0, gol_canvas.widthProperty().doubleValue(), gol_canvas.heightProperty().doubleValue());
-//		for( Point p : plist) {
-//			p.draw(gc, Color.RED,slider_size.getValue());
-//		}
+	
+		
+
 	}
 	
 	public void startBtnClicked(ActionEvent e) {

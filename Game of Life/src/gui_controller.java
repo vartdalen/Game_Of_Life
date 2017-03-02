@@ -25,10 +25,10 @@ import javafx.util.Duration;
 public class gui_controller implements Initializable {
 
 	private byte [][] initialBoard = { //MÃ¸nster
-			{1,0,0,1}, 
+			{0,0,0,0}, 
+			{0,0,1,0}, 
 			{0,1,1,0}, 
-			{0,1,1,0}, 
-			{1,0,0,1}
+			{0,0,0,0}
 		   };
 	
 	private byte [][] board = cloneByteArray(initialBoard);
@@ -77,32 +77,35 @@ public class gui_controller implements Initializable {
 			}
 		}
 		
-//		for (int i = 0; i < board.length; i++) {
-//			for (int j = 0; j < board[i].length; j++) {
-//				if (board[i-1][j-1] + board[i][j-1] + 
-//					board[i+1][j-1] + board[i+1][j] +
-//					board[i+1][j+1] + board[i][j+1] + 
-//					board[i-1][j+1] + board[i-1][j] == 3) {
-//					
-//					board[i][j] = 1; //cellen blir født
-//					
-//				} else if 	(board[i-1][j-1] + board[i][j-1] + 
-//							board[i+1][j-1] + board[i+1][j] +
-//							board[i+1][j+1] + board[i][j+1] + 
-//							board[i-1][j+1] + board[i-1][j] > 3) {
-//					
-//					board[i][j] = 0; //cellen dør av overpopulasjon
-//					
-//				} else if	(board[i-1][j-1] + board[i][j-1] + 
-//							board[i+1][j-1] + board[i+1][j] +
-//							board[i+1][j+1] + board[i][j+1] + 
-//							board[i-1][j+1] + board[i-1][j] < 3) {
-//					
-//					board[i][j] = 0; // cellen dør av ensomhet
-//					
-//				}
+		
+//		for (int i = 1; i < board.length; i++) {
+//		for (int j = -1; j < board[i].length; j++) {
+//			if ((board[i-1][j-1] + board[i][j-1] + 
+//				board[i+1][j-1] + board[i+1][j] +
+//				board[i+1][j+1] + board[i][j+1] + 
+//				board[i-1][j+1] + board[i-1][j]) == 3) {
+//				
+//				board[i][j] = 1; //cellen blir født
+//				
+//			} else if 	((board[i-1][j-1] + board[i][j-1] + 
+//						board[i+1][j-1] + board[i+1][j] +
+//						board[i+1][j+1] + board[i][j+1] + 
+//						board[i-1][j+1] + board[i-1][j]) > 3) {
+//				
+//				board[i][j] = 0; //cellen dør av overpopulasjon
+//				
+//			} else if	((board[i-1][j-1] + board[i][j-1] + 
+//						board[i+1][j-1] + board[i+1][j] +
+//						board[i+1][j+1] + board[i][j+1] + 
+//						board[i-1][j+1] + board[i-1][j]) < 3) {
+//				
+//				board[i][j] = 0; //cellen dør av ensomhet
+//				
 //			}
 //		}
+//	}
+		
+
 		
 		
 		

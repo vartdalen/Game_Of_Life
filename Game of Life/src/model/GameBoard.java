@@ -18,16 +18,6 @@ public class GameBoard {
 		return board;
 	}
 	
-	public void nextGeneration() {
-		
-		for(int i = 0; i<board.length; i++) {
-			for(int j = 0; j<board[i].length; j++){
-				if (board[i][j] == true){
-					board[i][j] = false;
-				}
-			}
-		}
-	}
 	
 	
 }

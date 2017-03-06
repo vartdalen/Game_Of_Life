@@ -28,8 +28,11 @@ public class gui_controller implements Initializable {
 	
 	private double size = 70.0; //Cell-size
 	
-	private static class Point {
+	private static class Cell {
+		
 		public double x,y;
+		public boolean isAlive = false;
+		public int aliveNeighbours;
 		public void draw(GraphicsContext gc, double size) {
 			gc.setFill(Color.GREEN);
 			gc.fillRect(x, y, size, size);
@@ -43,34 +46,37 @@ public class gui_controller implements Initializable {
 	@FXML private Slider slider_size;
 	@FXML private Slider slider_speed;
 	@FXML private Canvas gol_canvas;
-	private List<Point> plist;
+	private List<Cell> clist;
 	
 	public void initialize(java.net.URL location,
             java.util.ResourceBundle resources) {
 		slider_size.setValue(5.0);
 		slider_speed.setValue(5.0);
-		plist = new ArrayList<Point>();
+		clist = new ArrayList<Cell>();
 		draw(size);
 	}
 	
 	private void draw(double size) { //tegner opp mønster
 		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
-		Point p = new Point();
+		Cell cell = new Cell();
 		gc.clearRect(0, 0, gol_canvas.widthProperty().doubleValue(), gol_canvas.heightProperty().doubleValue());
 		for(int i = 0; i<board.length; i++) {
 			for(int j = 0; j<board[i].length; j++){
 				if(board[i][j] == 1) {
-				p.y = i*size;
-				p.x = j*size;
-				p.draw(gc, size);
+				cell.y = i*size;
+				cell.x = j*size;
+				cell.draw(gc, size);
 				}
 			}
 		}
-		
-//		gc.clearRect(0, 0, gol_canvas.widthProperty().doubleValue(), gol_canvas.heightProperty().doubleValue());
-//		for( Point p : plist) {
-//			p.draw(gc, Color.RED,slider_size.getValue());
-//		}
+	}
+	
+	public void drawCell(MouseEvent event) {
+		Cell newCell = new Cell();
+		newCell.y = event.getY();
+		newCell.x = event.getX();
+		clist.add(newCell);
+		draw(size);
 	}
 	
 	public void startBtnClicked(ActionEvent e) {

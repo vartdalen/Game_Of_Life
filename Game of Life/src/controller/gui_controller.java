@@ -167,7 +167,7 @@ public class gui_controller extends GameFunctions implements Initializable {
 		System.exit(0);
 	}
 	
-	//public void mouseClick(MouseEvent e) {
+	public void mouseClick(MouseEvent e) {
 	//	GraphicsContext gc = gol_canvas.getGraphicsContext2D();
 	//	Cell cell = new Cell();
 	//	for(int i = 0; i < board.length; i++) {
@@ -178,7 +178,7 @@ public class gui_controller extends GameFunctions implements Initializable {
 	//			if ()
 	//			cell.draw(gc, getCellSize(), getCellSize(), boardValue, colors);
 	//		}
-	//	}
+		}
 			
 		
 	//a}

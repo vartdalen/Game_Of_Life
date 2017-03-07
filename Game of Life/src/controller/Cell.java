@@ -2,18 +2,12 @@ package controller;
 
 public class Cell {
 	
-	int y = 1;
-	int x = 1;
+	double y;
+	double x;
 	public int size = 5;
-	public int isAlive = 0;
+	public byte cellStatus;  //1 = Alive, 0 = Dead.
 	public int neighbourCount;
-	
-	private double [][] board = { //Mønster
-			{0,0,0,0}, 
-			{0,1,0,0}, 
-			{0,0,0,0}, 
-			{0,0,0,0}
-		   };
+	private byte [][] board;
 	
 //	public Cell(int newStatus, int newSize, int neighbours) {
 //		this.isAlive = newStatus;
@@ -21,32 +15,36 @@ public class Cell {
 //		this.neighbourCount = neighbours;
 //	}
 	
-	public int neighbours() {
+	public int getCellStatus(byte row, byte col) {
+		cellStatus = board[row][col]; //setter cellens verdi til verdien på board-cord x,y: Dersom verdien er 1, celle = Alive. Dersom verdien = 0, celle = Dead.
 		neighbourCount = 0;
 		
-		for(int i = y-1; i <= y+1; i++) {
-			for(int j = x-1; j <= x+1; x++) {
-				if(board[i][j] == 1) { //y[i].isAlive && x[j].isAlive == 1
+		//Sjekker naboer rundt den gjeldende cellen.
+		for(int i = col-1; i <= col+1; i++) {
+			for(int j = row-1; j <= row+1; j++) {
+				if(board[i][j] == 1 && (i != col && j != row)) { //Dersom  verdi = 1 OG cellen som sjekkes ikke er seg selv = øk nabo-teller med 1.		|     y[i].isAlive && x[j].isAlive == 1
 					neighbourCount += 1;
 				}
 			}
 		}
 		
-		if(neighbourCount >= 2 && neighbourCount <= 3) {
-			isAlive = 1;
-		} else {
-			isAlive = 0;
+		// Celle vekkes til live av 3 naboer - holdes i live ved 2 eller 3 naboer, og dør dersom den har mindre enn 2 eller flere enn 3 naboer.
+		
+		if(cellStatus == 0 && neighbourCount == 3) { 										//Dersom Cellen er død, og har 3 naboer så vekkes den til live.
+			cellStatus = 1;
+		} else if(cellStatus == 1 && (neighbourCount == 2 || neighbourCount == 3)) { 		//Dersom cellen er i live OG har 2 eller 3 naboer = holdes i live.
+			cellStatus = 1;
+		} else if (neighbourCount < 2 || neighbourCount > 3) { 								//Dersom cellen har mindre enn 2 eller flere enn 3 naboer = cellen dør.
+			cellStatus = 0;
 		}
-		return isAlive;
+		
+		return cellStatus;
 	}
 	
-	public void deadOrAlive() {
-		//Hvis Cell har 2 eller flere naboer og det samme som, eller mindre enn 4 naboer = true
-		if(neighbourCount >= 2 && neighbourCount <= 3) {
-			isAlive = 1;
-		} else {
-			isAlive = 0;
-		}
-	}
+//	public int drawOnMousePosition() {
+//		if(isAlive == 1) {
+//			//<insert drawFunction>
+//		}
+//	}
 	
 }

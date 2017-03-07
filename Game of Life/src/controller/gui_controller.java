@@ -37,12 +37,7 @@ public class gui_controller extends GameFunctions implements Initializable {
 	@FXML private Slider slider_speed;
 	@FXML private Canvas gol_canvas;
 	private List<Cell> clist;
-	private byte [][] initialboard = { //Mønster
-				{1,0,0,1}, 
-				{0,1,1,0}, 
-				{0,1,1,0}, 
-				{1,0,0,1}
-			   };
+	private byte[][] initialboard = super.board;
 	private byte [][] board = super.cloneByteArray(initialboard);
 	private Color[] colors = new Color[] { Color.WHITE, Color.BLACK };
 	private Timeline timeline;

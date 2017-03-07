@@ -30,7 +30,7 @@
 		<Button fx:id="btnStop" text="Stop"/>
 		<Button fx:id="btnClear" text="Clear"/>
 		<Label fx:id="label_size" text="Size"/>
-		<Slider value="5.0" max="100.0" min="1.0" fx:id="slider_size" onMouseDragged="#changeSize"/>
+		<Slider value="5.0" max="100.0" min="1.0" fx:id="slider_size" onMouseDragged="#getCellSize"/>
 		<Label fx:id="label_speed" text="Speed"/>
 		<Slider value="5.0" max="100.0" min="1.0" fx:id="slider_speed"/>
 		<Button fx:id="btnImport" text="Import"/>

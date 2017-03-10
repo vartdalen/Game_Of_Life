@@ -32,7 +32,7 @@ public class GameFunctions {
 	}
 	
 	
-	private int countNeighbours(byte row, byte col) {
+	public int countNeighbours(int row, int col, byte [][]board) {
 		byte cellStatus = board[row][col]; //setter cellens verdi til verdien på board-cord x,y: Dersom verdien er 1, celle = Alive. Dersom verdien = 0, celle = Dead.
 		int neighbourCount = 0;
 		
@@ -77,10 +77,11 @@ public class GameFunctions {
 	}
 	
 	
-	public void applyRule(byte[][] board) {
-		nextGeneration(board);
-//		addBlack();
-	}
+//	public void applyRule(byte[][] board) {
+////		nextGeneration(board);
+////		countNeighbours(4,4,board);
+////		addBlack();
+//	}
 	
 	
 	

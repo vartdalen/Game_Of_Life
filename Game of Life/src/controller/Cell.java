@@ -23,7 +23,7 @@ public class Cell {
 		for(int i = col-1; i <= col+1; i++) {
 			for(int j = row-1; j <= row+1; j++) {
 				if(board[i][j] == 1 && (i != col && j != row)) { //Dersom  verdi = 1 OG cellen som sjekkes ikke er seg selv = øk nabo-teller med 1.		|     y[i].isAlive && x[j].isAlive == 1
-					neighbourCount += 1;
+					neighbourCount ++;
 				}
 			}
 		}

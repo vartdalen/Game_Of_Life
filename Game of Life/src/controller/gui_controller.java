@@ -94,6 +94,7 @@ public class gui_controller extends GameFunctions implements Initializable {
 	
 	public void applyRule(byte[][] board) {
 		super.nextGeneration(board);
+//		super.countNeighbours(3,3,board);
 		clearCanvas();
 	}
 	

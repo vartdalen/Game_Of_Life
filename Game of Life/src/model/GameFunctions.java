@@ -39,12 +39,15 @@ public class GameFunctions {
 				
 				for (byte i = -1; i <= 1; i++){
 					for(byte j = -1; j <= 1; j++){
-						neighbourCount += board[x+i][y+j];
+						neighbourCount ++;
+						System.out.println("ny celle");
+						System.out.println(neighbourCount);
 						
 					}
 				}
 				neighbourCount -= board[x][y];
-				System.out.println(neighbourCount+"pos"+board[x][y]);
+				
+				
 				if((board[x][y] == 1) && (neighbourCount < 2)){
 					output[x][y] = 0; 
 				}

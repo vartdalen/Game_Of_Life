@@ -67,6 +67,7 @@ public class gui_controller extends GameFunctions implements Initializable {
 					public void handle(ActionEvent event) {
 						applyRule(board);
 						drawBoard();
+						
 					}});
 				timeline.getKeyFrames().add(frame);
 				timeline.play();
@@ -101,7 +102,7 @@ public class gui_controller extends GameFunctions implements Initializable {
 	}
 	
 	public void applyRule(byte[][] board) {
-		super.nextGen((byte)4, (byte)4, board);
+		super.nextGen((byte)board.length, (byte)board.length, board);
 		clearCanvas();
 	}
 	
@@ -121,6 +122,7 @@ public class gui_controller extends GameFunctions implements Initializable {
 			public void handle(ActionEvent event) {
 				applyRule(board);
 				drawBoard();
+				System.out.println("ny frame");
 			}});
 		timeline.getKeyFrames().add(frame);
 		timeline.play();

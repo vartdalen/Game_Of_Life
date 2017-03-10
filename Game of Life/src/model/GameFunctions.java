@@ -37,14 +37,18 @@ public class GameFunctions {
 				
 				byte neighbourCount = 0;
 				
-				for (byte i = -1; i <= 1; i++){
-					for(byte j = -1; j <= 1; j++){
-						neighbourCount ++;
-						System.out.println("ny celle");
+				for (byte i = -1; i < 1; i++){
+					for(byte j = -1; j < 1; j++){
+						if(board[i][j] == 1){
+							neighbourCount ++;
+						}
+						
+						System.out.println("ny nabocelle");
 						System.out.println(neighbourCount);
 						
 					}
 				}
+				System.out.println("NESTE CELLE");
 				neighbourCount -= board[x][y];
 				
 				
@@ -120,7 +124,7 @@ public class GameFunctions {
 	
 	public Timeline createTimeline(float animationTime) {
 		Timeline timeline = new Timeline();
-		timeline.setCycleCount(Timeline.INDEFINITE);
+		timeline.setCycleCount(2);
 		
 		return timeline;
 	}

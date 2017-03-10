@@ -37,17 +37,22 @@ public class gui_controller extends GameFunctions implements Initializable {
 	@FXML private Slider slider_speed;
 	@FXML private Canvas gol_canvas;
 	private List<Cell> clist;
-	private byte[][] initialboard = super.board;
+	private byte [][] initialboard = { //Mønster
+			{0,0,0,0}, 
+			{0,0,1,0}, 
+			{0,0,0,0}, 
+			{0,0,0,0}
+		   };
 	private byte [][] board = super.cloneByteArray(initialboard);
 	private Color[] colors = new Color[] { Color.WHITE, Color.BLACK };
 	private Timeline timeline;
 	
 	public void initialize(java.net.URL location,
             java.util.ResourceBundle resources) {
+		
 		slider_speed.setValue((slider_speed.getValue()));
 		slider_size.setValue(slider_size.getValue());
 		slider_speed.valueProperty().addListener(new ChangeListener<Number>(){
-
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				if (timeline == null) {
@@ -85,6 +90,9 @@ public class gui_controller extends GameFunctions implements Initializable {
 		}
 	}
 	
+//	private byte[][] cloneArray(byte[][] innBoard) {
+//		return super.cloneByteArray(innBoard);
+//	}
 		
 		
 	void clearCanvas() {
@@ -93,7 +101,7 @@ public class gui_controller extends GameFunctions implements Initializable {
 	}
 	
 	public void applyRule(byte[][] board) {
-		super.nextGeneration(board);
+		super.nextGen((byte)4, (byte)4, board);
 		clearCanvas();
 	}
 	
@@ -134,8 +142,11 @@ public class gui_controller extends GameFunctions implements Initializable {
 		/*
 		 * fjerne eksisterende celler -> blanke ark.
 		 * */
-		board = super.cloneByteArray(initialboard);
+//		board = super.cloneByteArray(initialboard);
 		clearCanvas();
+		timeline.stop();
+		board = super.cloneByteArray(initialboard);
+		drawBoard();
 	}
 	
 	@FXML

@@ -37,13 +37,15 @@ public class gui_controller extends GameFunctions implements Initializable {
 	@FXML private Slider slider_speed;
 	@FXML private Canvas gol_canvas;
 	private List<Cell> clist;
-	private byte [][] initialboard = { //MÃ¸nster
-			{1,0,0,0,1}, 
-			{0,1,1,1,0}, 
-			{0,1,1,1,0},
-			{0,1,1,1,0},
-			{1,0,0,0,1}
+	
+	private byte [][] initialboard = {
+			{1,1,1,0}, 
+			{0,1,0,0}, 
+			{0,0,0,0}, 
+			{0,0,1,0},
+			{1,1,1,1},
 		   };
+	
 	private byte [][] board = super.cloneByteArray(initialboard);
 	private Color[] colors = new Color[] { Color.WHITE, Color.BLACK };
 	private Timeline timeline;
@@ -68,18 +70,18 @@ public class gui_controller extends GameFunctions implements Initializable {
 					public void handle(ActionEvent event) {
 						applyRule(board);
 						drawBoard();
-						
 					}});
-				timeline.getKeyFrames().add(frame);
-				timeline.play();
 				
+				timeline.getKeyFrames().add(frame);
+				timeline.play();	
 			}});
+		
 		clist = new ArrayList<Cell>();
 		drawBoard();
 	}
 	
 	
-	public void drawBoard() {
+	public void drawBoard() { //Draws the board
 		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
 		Cell cell = new Cell();
 		for(int i = 0; i < board.length; i++) {
@@ -97,16 +99,15 @@ public class gui_controller extends GameFunctions implements Initializable {
 //	}
 		
 		
-	void clearCanvas() {
+	void clearCanvas() { //Cleans up the canvas
 		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
 		gc.clearRect(0, 0, board.length * slider_size.getMax(), board[0].length * slider_size.getMax());
 	}
 	
 	public void applyRule(byte[][] board) {
-		super.nextGen(board);
+		this.board = super.nextGen(board);
 		clearCanvas();
 	}
-	
 	
 	
 	public void startBtnClicked(ActionEvent e) {
@@ -123,7 +124,6 @@ public class gui_controller extends GameFunctions implements Initializable {
 			public void handle(ActionEvent event) {
 				applyRule(board);
 				drawBoard();
-				System.out.println("ny frame");
 			}});
 		timeline.getKeyFrames().add(frame);
 		timeline.play();
@@ -161,14 +161,14 @@ public class gui_controller extends GameFunctions implements Initializable {
 	@FXML
 	public float getCellSize() {
 		
-		//forandrer lengde og hï¿½yde pï¿½ cellene
+		//forandrer lengde og høyde på cellene
 		return (float)slider_size.getValue();
 		
 	}
 	
 	public void importBtnClicked(ActionEvent e) {
 		/*
-		 * Kunne importere andre mÃ¸nstre
+		 * Kunne importere andre mønstre
 		 * */
 	}
 	

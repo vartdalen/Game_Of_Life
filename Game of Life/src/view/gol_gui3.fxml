@@ -32,7 +32,7 @@
 		<Label fx:id="label_size" text="Size"/>
 		<Slider value="50.0" max="100.0" min="1.0" fx:id="slider_size" onMouseDragged="#getCellSize"/>
 		<Label fx:id="label_speed" text="Speed"/>
-		<Slider value="500.0" max="500.0" min="10.0" fx:id="slider_speed" onMouseDragged="#getAnimationSpeed"/>
+		<Slider value="600.0" max="500.0" min="10.0" fx:id="slider_speed" onMouseDragged="#getAnimationSpeed"/>
 		<Button fx:id="btnImport" text="Import"/>
 	</VBox>
 	

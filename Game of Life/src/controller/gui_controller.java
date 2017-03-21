@@ -110,7 +110,6 @@ public class gui_controller extends GameFunctions implements Initializable {
 	}
 	
 	
-	
 	public void startBtnClicked(ActionEvent e) {
 		/*
 		 * Starte generering/forandring av celler

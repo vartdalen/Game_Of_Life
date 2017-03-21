@@ -74,6 +74,7 @@ public class GameFunctions {
 
 
 		
+	
 //		byte[][] output = new byte[col][row]; //setter cellens verdi til verdien på board-cord x,y: Dersom verdien er 1, celle = Alive. Dersom verdien = 0, celle = Dead.
 	
 		//Sjekker naboer rundt den gjeldende cellen.

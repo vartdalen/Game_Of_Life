@@ -7,15 +7,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.util.Duration;
 import model.Cell;
+import controller.gui_controller;
 
 
 public class GameFunctions {
 
 	
-
 	
-	
-	
+			
 	public byte[][] cloneByteArray(byte[][] orig) {
 		byte[][] output = new byte[orig.length][orig[0].length];
 		for(int i = 0; i < orig.length; i++) {
@@ -27,48 +26,75 @@ public class GameFunctions {
 	}
 	
 	
-	protected void nextGen(byte row, byte col, byte[][] board) {
-		byte[][] output = new byte[col][row]; //setter cellens verdi til verdien på board-cord x,y: Dersom verdien er 1, celle = Alive. Dersom verdien = 0, celle = Dead.
+	protected void nextGen(byte[][] board) {
+//		byte[][] output = new byte[board.length][board[0].length]; //setter cellens verdi til verdien på board-cord x,y: Dersom verdien er 1, celle = Alive. Dersom verdien = 0, celle = Dead.
 		
 		
 		//Sjekker naboer rundt den gjeldende cellen.
-		for(byte x = 1; x < col-1; x++) {
-			for(byte y = 1; y < row-1; y++) {
+		for(byte x = 1; x <= board.length-1; x++) {
+			for(byte y = 1; y <= board[x].length-1; y++) {
 				
 				byte neighbourCount = 0;
 				
-				for (byte i = -1; i < 1; i++){
-					for(byte j = -1; j < 1; j++){
-						if(board[i][j] == 1){
-							neighbourCount ++;
-						}
-						
-						System.out.println("ny nabocelle");
-						System.out.println(neighbourCount);
-						
-					}
+				if (board[x-1][y-1] == 1){
+					neighbourCount++;
 				}
+				else if (board[x-1][y] == 1){
+					neighbourCount++;
+				}
+				else if (board[x-1][y+1] == 1){
+					neighbourCount++;
+				}
+				else if (board[x][y+1] == 1){
+					neighbourCount++;
+				}
+				else if (board[x][y-1] == 1){
+					neighbourCount++;
+				}
+				else if (board[x+1][y] == 1){
+					neighbourCount++;
+				}
+				else if (board[x+1][y+1] == 1){
+					neighbourCount++;
+				}
+				else if (board[x+1][y-1] == 1){
+					neighbourCount++;
+				}
+				
+//				for (byte i = -1; i <= 1; i++){
+//					for(byte j = -1; j <= 1; j++){
+//						if(board[i][j] == 1) {
+//							neighbourCount++;
+//						}
+//						System.out.println("ny nabocelle");
+//						
+//						
+//						
+//					}
+//				}
+				
+//				neighbourCount -= board[x][y];
+				System.out.println(neighbourCount);
 				System.out.println("NESTE CELLE");
-				neighbourCount -= board[x][y];
 				
 				
 				if((board[x][y] == 1) && (neighbourCount < 2)){
-					output[x][y] = 0; 
+					board[x][y] = 0; 
 				}
 				else if ((board[x][y] == 1) && (neighbourCount > 3)){
-					output[x][y] = 0;
+					board[x][y] = 0;
 				}
 				else if ((board[x][y] == 0) && (neighbourCount == 3)){
-					output[x][y] = 1;
+					board[x][y] = 1;
 				}
 				else {
-					output[x][y] = board[x][y];
+					board[x][y] = board[x][y];
 				}
 				
 			}
 		}
 		
-		board = output;
+		
 		
 		
 		
@@ -124,7 +150,7 @@ public class GameFunctions {
 	
 	public Timeline createTimeline(float animationTime) {
 		Timeline timeline = new Timeline();
-		timeline.setCycleCount(2);
+		timeline.setCycleCount(timeline.INDEFINITE);
 		
 		return timeline;
 	}

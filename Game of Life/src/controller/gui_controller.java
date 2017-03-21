@@ -122,6 +122,7 @@ public class gui_controller extends GameFunctions implements Initializable {
 			public void handle(ActionEvent event) {
 				applyRule(board);
 				drawBoard();
+				
 				System.out.println("ny frame");
 			}});
 		timeline.getKeyFrames().add(frame);

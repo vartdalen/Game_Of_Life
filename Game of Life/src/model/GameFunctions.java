@@ -19,7 +19,7 @@ public class GameFunctions {
 				output[i][j] = orig[i][j];
 			}
 		}
-		return output;
+		return output; 
 	}
 	
 	
@@ -49,7 +49,7 @@ public class GameFunctions {
 	
 	
 	public static int getNeighbourCount(int row, int col, byte[][] board) {
-		//Passe på at vi ikke går utenfor brettet
+		//Passe pï¿½ at vi ikke gï¿½r utenfor brettet
         int minRow = Math.max(0, row - 1);
         int maxRow = Math.min(board.length - 1, row + 1); 
         int minCol = Math.max(0, col - 1);  					
@@ -60,7 +60,7 @@ public class GameFunctions {
 		for (int i = minRow; i <= maxRow; i++) {
             for (int j = minCol; j <= maxCol; j++) {
                 if (i == row && j == col){
-                    continue;//Må ikke telle seg selv som en nabo til seg selv...
+                    continue;//Mï¿½ ikke telle seg selv som en nabo til seg selv...
                 }
                 
                 if (board[i][j] == 1) {
@@ -74,7 +74,7 @@ public class GameFunctions {
 
 
 		
-//		byte[][] output = new byte[col][row]; //setter cellens verdi til verdien på board-cord x,y: Dersom verdien er 1, celle = Alive. Dersom verdien = 0, celle = Dead.
+//		byte[][] output = new byte[col][row]; //setter cellens verdi til verdien pï¿½ board-cord x,y: Dersom verdien er 1, celle = Alive. Dersom verdien = 0, celle = Dead.
 	
 		//Sjekker naboer rundt den gjeldende cellen.
 //		for(byte x = 1; x < col-1; x++) {
@@ -120,11 +120,11 @@ public class GameFunctions {
 		
 		// Celle vekkes til live av 3 naboer - holdes i live ved 2 eller 3 naboer, og dÃ¸r dersom den har mindre enn 2 eller flere enn 3 naboer.
 		
-//		if(cellStatus == 0 && neighbourCount == 3) { 										//Dersom Cellen er død, og har 3 naboer sÃ¥ vekkes den til live.
+//		if(cellStatus == 0 && neighbourCount == 3) { 										//Dersom Cellen er dï¿½d, og har 3 naboer sÃ¥ vekkes den til live.
 //			cellStatus = 1;
 //		} else if(cellStatus == 1 && (neighbourCount == 2 || neighbourCount == 3)) { 		//Dersom cellen er i live OG har 2 eller 3 naboer = holdes i live.
 //			cellStatus = 1;
-//		} else if (neighbourCount < 2 || neighbourCount > 3) { 								//Dersom cellen har mindre enn 2 eller flere enn 3 naboer = cellen dør.
+//		} else if (neighbourCount < 2 || neighbourCount > 3) { 								//Dersom cellen har mindre enn 2 eller flere enn 3 naboer = cellen dï¿½r.
 //			cellStatus = 0;
 //		}
 //		

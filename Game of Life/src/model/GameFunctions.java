@@ -11,28 +11,56 @@ import model.Cell;
 
 
 public class GameFunctions {
+	
+	
+	public byte [][] board = {
+			{1,1,1,0}, 
+			{0,1,0,0}, 
+			{0,0,0,0}, 
+			{0,0,1,0},
+			{1,1,1,1},
+		   };
+	
+	
 
-	public byte[][] cloneByteArray(byte[][] orig) {
-		byte[][] output = new byte[orig.length][orig[0].length];
-		for(int i = 0; i < orig.length; i++) {
-			for(int j = 0; j < orig[i].length; j++) {
-				output[i][j] = orig[i][j];
+	public byte[][] cloneByteArray() {
+		byte[][] output = new byte[board.length][board[0].length];
+		for(int i = 0; i < board.length; i++) {
+			for(int j = 0; j < board[i].length; j++) {
+				output[i][j] = board[i][j];
 			}
 		}
 		return output; 
 	}
 	
 	
-	public static byte [][] nextGen(byte[][] currentBoard) {
-		int numberOfRows = currentBoard.length;
-		int numberOfCols = currentBoard[0].length;
+	@Override
+	public String toString() {
+		String returnString = "";
+		for(int i = 0; i < board.length; i++) {
+			for(int j = 0; j < board[i].length; j++) {
+				returnString = returnString + board[i][j];
+			}
+		}
+		return returnString;
+	}
+	
+	public void setBoard(byte [][] gameBoard) {
+		this.board = gameBoard;
+	}
+	
+	
+	
+	public byte [][] nextGen() {
+		int numberOfRows = board.length;
+		int numberOfCols = board[0].length;
 		
 		byte[][] nextBoard = new byte[numberOfRows][];
 		
 		for(int row = 0; row < numberOfRows; row++) {
 			nextBoard[row] = new byte[numberOfCols];
 			for(int col = 0; col < numberOfCols; col++) {
-				int neighbourCount = getNeighbourCount(row, col, currentBoard);
+				int neighbourCount = getNeighbourCount(row, col, board);
 				
 				if(neighbourCount < 2){
 					nextBoard[row][col] = 0;

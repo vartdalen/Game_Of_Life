@@ -26,7 +26,7 @@ import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
-public class gui_controller extends GameFunctions implements Initializable {
+public class gui_controller implements Initializable {
 
 	
 	@FXML private Button btnStart;
@@ -37,16 +37,7 @@ public class gui_controller extends GameFunctions implements Initializable {
 	@FXML private Slider slider_speed;
 	@FXML private Canvas gol_canvas;
 	private List<Cell> clist;
-	
-	private byte [][] initialboard = {
-			{1,1,1,0}, 
-			{0,1,0,0}, 
-			{0,0,0,0}, 
-			{0,0,1,0},
-			{1,1,1,1},
-		   };
-	
-	private byte [][] board = super.cloneByteArray(initialboard);
+	private GameFunctions gol = new GameFunctions();
 	private Color[] colors = new Color[] { Color.WHITE, Color.BLACK };
 	private Timeline timeline;
 	
@@ -63,12 +54,12 @@ public class gui_controller extends GameFunctions implements Initializable {
 				}
 				
 				timeline.stop();
-				timeline = createTimeline(newValue.floatValue());
+				timeline = gol.createTimeline(newValue.floatValue());
 				KeyFrame frame = new KeyFrame(Duration.millis(getAnimationSpeed()), new EventHandler<ActionEvent>(){
 					
 					@Override
 					public void handle(ActionEvent event) {
-						applyRule(board);
+						applyRule(gol.board);
 						drawBoard();
 					}});
 				
@@ -84,11 +75,11 @@ public class gui_controller extends GameFunctions implements Initializable {
 	public void drawBoard() { //Draws the board
 		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
 		Cell cell = new Cell();
-		for(int i = 0; i < board.length; i++) {
-			for(int j = 0; j < board[i].length; j++) {
+		for(int i = 0; i < gol.board.length; i++) {
+			for(int j = 0; j < gol.board[i].length; j++) {
 				cell.x = j*getCellSize();
 				cell.y = i*getCellSize();
-				byte boardValue = board[i][j];
+				byte boardValue = gol.board[i][j];
 				cell.draw(gc, getCellSize(), getCellSize(), boardValue, colors);
 			}
 		}
@@ -101,11 +92,11 @@ public class gui_controller extends GameFunctions implements Initializable {
 		
 	void clearCanvas() { //Cleans up the canvas
 		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
-		gc.clearRect(0, 0, board.length * slider_size.getMax(), board[0].length * slider_size.getMax());
+		gc.clearRect(0, 0, gol.board.length * slider_size.getMax(), gol.board[0].length * slider_size.getMax());
 	}
 	
 	public void applyRule(byte[][] board) {
-		this.board = super.nextGen(board);
+		gol.board = gol.nextGen();
 		clearCanvas();
 	}
 	
@@ -118,12 +109,12 @@ public class gui_controller extends GameFunctions implements Initializable {
 		if (timeline != null) {
 			timeline.stop();
 		}
-		timeline = super.createTimeline(getAnimationSpeed());
+		timeline = gol.createTimeline(getAnimationSpeed());
 		KeyFrame frame = new KeyFrame(Duration.millis(getAnimationSpeed()), new EventHandler<ActionEvent>(){
 			
 			@Override
 			public void handle(ActionEvent event) {
-				applyRule(board);
+				applyRule(gol.board);
 				drawBoard();
 			}});
 		timeline.getKeyFrames().add(frame);
@@ -149,7 +140,7 @@ public class gui_controller extends GameFunctions implements Initializable {
 //		board = super.cloneByteArray(initialboard);
 		clearCanvas();
 		timeline.stop();
-		board = super.cloneByteArray(initialboard);
+		gol.board = gol.cloneByteArray();
 		drawBoard();
 	}
 	
@@ -162,14 +153,14 @@ public class gui_controller extends GameFunctions implements Initializable {
 	@FXML
 	public float getCellSize() {
 		
-		//forandrer lengde og høyde på cellene
+		//forandrer lengde og hï¿½yde pï¿½ cellene
 		return (float)slider_size.getValue();
 		
 	}
 	
 	public void importBtnClicked(ActionEvent e) {
 		/*
-		 * Kunne importere andre mønstre
+		 * Kunne importere andre mï¿½nstre
 		 * */
 	}
 	

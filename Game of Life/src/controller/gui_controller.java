@@ -57,7 +57,7 @@ public class gui_controller implements Initializable {
 				p.initialy = i*p.size;
 				p.initialx = j*p.size;
 				p.drawInitialCells(gc);
-				System.out.println(p.size);
+//				System.out.println(p.size);
 				}
 			}
 		}
@@ -76,61 +76,45 @@ public class gui_controller implements Initializable {
 	
 	public void blackify (MouseEvent e) {
 		
-		System.out.println(getMouseColCoordinate());
-		System.out.println(getMouseRowCoordinate());
+		double cols, rows;
 		
-		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
-		Cell c = new Cell();
-
-//		
-//		for(int i = 0; i<board.length; i++) {
-//			for(int j = 0; j<board[i].length; j++){
-//			
-//			c.x = a.getX();
-//			c.y = a.getY();
-//			c.drawCell(gc, size);
-//		
-//			}
-//		}
+				rows = getMouseXCoordinate();
+				cols = getMouseYCoordinate();
+					
+				if (board[(int) cols][(int) rows] == 1) {
+					
+					board[(int) cols][(int) rows] = 0;
+					drawGrid(slider_size.getValue());
+					
+				} else if (board[(int)cols][(int)rows] == 0) {
+					
+					board[(int) cols][(int) rows] = 1;
+					drawGrid(slider_size.getValue());
+					
+				}
+				
+		System.out.println(getMouseXCoordinate());
+		System.out.println(getMouseYCoordinate());
 		
-		
-		
-//		double cols, rows;
-//		
-//		for(int i = 0; i<board.length; i++) {
-//			for(int j = 0; j<board[i].length; j++){
-//				
-////				cols = MouseInfo.getPointerInfo().getLocation().getX();
-////				rows = MouseInfo.getPointerInfo().getLocation().getY();
-//					
-//				if (board[cols][rows] == 1) {
-//					
-//					board[i][j] = 0;
-//					drawGrid(size);
-//					
-//				} 
-//				
-//			}
-//		}
 	}
 	
-	public double getMouseColCoordinate() {
-		
-		double ColCo;
-		
-		ColCo = MouseInfo.getPointerInfo().getLocation().getX();
-		
-		return ColCo / slider_size.getValue();
-
-	}
-	
-	public double getMouseRowCoordinate() {
+	public double getMouseXCoordinate() {
 		
 		double RowCo;
 		
-		RowCo = MouseInfo.getPointerInfo().getLocation().getY();
+		RowCo = MouseInfo.getPointerInfo().getLocation().getX();
 		
 		return RowCo / slider_size.getValue();
+
+	}
+	
+	public double getMouseYCoordinate() {
+		
+		double ColCo;
+		
+		ColCo = MouseInfo.getPointerInfo().getLocation().getY();
+		
+		return ColCo / slider_size.getValue();
 		
 	}
 	

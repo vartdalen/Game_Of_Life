@@ -140,7 +140,7 @@ public class gui_controller implements Initializable {
 //		board = super.cloneByteArray(initialboard);
 		clearCanvas();
 		timeline.stop();
-		gol.board = gol.cloneByteArray();
+		gol.board = gol.initBoard();
 		drawBoard();
 	}
 	
@@ -169,18 +169,9 @@ public class gui_controller implements Initializable {
 	}
 	
 	public void mouseClick(MouseEvent e) {
-	//	GraphicsContext gc = gol_canvas.getGraphicsContext2D();
-	//	Cell cell = new Cell();
-	//	for(int i = 0; i < board.length; i++) {
-	//		for(int j = 0; j < board[i].length; j++) {
-	//			cell.x = e.getX();
-	//			cell.y = e.getY();
-	//			byte boardValue = board[i][j];
-	//			if ()
-	//			cell.draw(gc, getCellSize(), getCellSize(), boardValue, colors);
-	//		}
+		timeline.stop();
+		gol.blackify(slider_size);
+		drawBoard();
 		}
-			
-		
-	//a}
+	
 }

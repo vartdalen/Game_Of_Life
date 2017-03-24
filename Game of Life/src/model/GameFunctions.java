@@ -8,7 +8,10 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Slider;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import model.Cell;
 
@@ -17,6 +20,8 @@ public class GameFunctions {
 	
 	
 	public byte [][] board = initBoard();
+	public Timeline timeline;
+	private Color[] colors = new Color[] { Color.WHITE, Color.BLACK };
 	
 	public byte[][] initBoard() {
 		byte [][] board = {
@@ -177,4 +182,52 @@ public class GameFunctions {
 		
 		return timeline;
 	}
+	
+	public void applyRule() {
+		board = nextGen();
+	}
+	
+	public void clearCanvas(Canvas gol_canvas, Slider slider_size) { //Cleans up the canvas
+		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
+		gc.clearRect(0, 0, board.length * slider_size.getMax(), board[0].length * slider_size.getMax());
+	}
+	
+	
+	public void drawBoard(Canvas gol_canvas, float cellSize) { //Draws the board
+		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
+		Cell cell = new Cell();
+		for(int i = 0; i < board.length; i++) {
+			for(int j = 0; j < board[i].length; j++) {
+				cell.x = j*cellSize;
+				cell.y = i*cellSize;
+				byte boardValue = board[i][j];
+				cell.draw(gc, cellSize, cellSize, boardValue, colors);
+			}
+		}
+	}
+	
+	public void startTimeline(Canvas gol_canvas, float slider_speed, float slider_size) {
+		/*
+		 * Starte generering/forandring av celler
+		 * */
+		if (timeline != null) {
+			timeline.stop();
+		}
+		
+		timeline = createTimeline(slider_speed);
+		KeyFrame frame = new KeyFrame(Duration.millis(slider_speed), new EventHandler<ActionEvent>(){
+			
+			@Override
+			public void handle(ActionEvent event) {
+				applyRule();
+				drawBoard(gol_canvas, slider_size);
+			}});
+		timeline.getKeyFrames().add(frame);
+		timeline.play();
+		
+		drawBoard(gol_canvas, slider_size);
+	}
+	
+	
+	
 }

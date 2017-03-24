@@ -38,97 +38,55 @@ public class gui_controller implements Initializable {
 	@FXML private Canvas gol_canvas;
 	private List<Cell> clist;
 	private GameFunctions gol = new GameFunctions();
-	private Color[] colors = new Color[] { Color.WHITE, Color.BLACK };
-	private Timeline timeline;
+	
+	
+	
+	
 	
 	public void initialize(java.net.URL location,
             java.util.ResourceBundle resources) {
 		
-		slider_speed.setValue((slider_speed.getValue()));
-		slider_size.setValue(slider_size.getValue());
-		slider_speed.valueProperty().addListener(new ChangeListener<Number>(){
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				if (timeline == null) {
-					return;
-				}
-				
-				timeline.stop();
-				timeline = gol.createTimeline(newValue.floatValue());
-				KeyFrame frame = new KeyFrame(Duration.millis(getAnimationSpeed()), new EventHandler<ActionEvent>(){
+	slider_speed.setValue((slider_speed.getValue()));
+	slider_size.setValue(slider_size.getValue());
+	slider_speed.valueProperty().addListener(new ChangeListener<Number>(){
+		@Override
+		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+			if (gol.timeline == null) {
+				return;
+			}
+			
+			gol.timeline.stop();
+			gol.timeline = gol.createTimeline(newValue.floatValue());
+			KeyFrame frame = new KeyFrame(Duration.millis(getAnimationSpeed()), new EventHandler<ActionEvent>(){
 					
 					@Override
-					public void handle(ActionEvent event) {
-						applyRule(gol.board);
-						drawBoard();
-					}});
-				
-				timeline.getKeyFrames().add(frame);
-				timeline.play();	
+				public void handle(ActionEvent event) {
+					gol.applyRule();
+					gol.drawBoard(gol_canvas, getCellSize());
+				}});
+			
+			gol.timeline.getKeyFrames().add(frame);
+			gol.timeline.play();	
 			}});
 		
 		clist = new ArrayList<Cell>();
-		drawBoard();
+		gol.drawBoard(gol_canvas, getCellSize());
 	}
-	
-	
-	public void drawBoard() { //Draws the board
-		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
-		Cell cell = new Cell();
-		for(int i = 0; i < gol.board.length; i++) {
-			for(int j = 0; j < gol.board[i].length; j++) {
-				cell.x = j*getCellSize();
-				cell.y = i*getCellSize();
-				byte boardValue = gol.board[i][j];
-				cell.draw(gc, getCellSize(), getCellSize(), boardValue, colors);
-			}
-		}
-	}
-	
-//	private byte[][] cloneArray(byte[][] innBoard) {
-//		return super.cloneByteArray(innBoard);
-//	}
-		
-		
-	void clearCanvas() { //Cleans up the canvas
-		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
-		gc.clearRect(0, 0, gol.board.length * slider_size.getMax(), gol.board[0].length * slider_size.getMax());
-	}
-	
-	public void applyRule(byte[][] board) {
-		gol.board = gol.nextGen();
-		clearCanvas();
-	}
-	
 	
 	
 	public void startBtnClicked(ActionEvent e) {
 		/*
 		 * Starte generering/forandring av celler
 		 * */
-		if (timeline != null) {
-			timeline.stop();
-		}
-		timeline = gol.createTimeline(getAnimationSpeed());
-		KeyFrame frame = new KeyFrame(Duration.millis(getAnimationSpeed()), new EventHandler<ActionEvent>(){
-			
-			@Override
-			public void handle(ActionEvent event) {
-				applyRule(gol.board);
-				drawBoard();
-			}});
-		timeline.getKeyFrames().add(frame);
-		timeline.play();
-		
-		drawBoard();
+		gol.startTimeline(gol_canvas, getAnimationSpeed(), getCellSize());
 	}
 	
 	public void stopBtnClicked(ActionEvent e) {
 		/*
 		 * Stoppe generering/forandring av celler
 		 * */
-		if (timeline != null) {
-			timeline.stop();
+		if (gol.timeline != null) {
+			gol.timeline.stop();
 		}
 	}
 	
@@ -137,11 +95,11 @@ public class gui_controller implements Initializable {
 		/*
 		 * fjerne eksisterende celler -> blanke ark.
 		 * */
-//		board = super.cloneByteArray(initialboard);
-		clearCanvas();
-		timeline.stop();
+
+		gol.clearCanvas(gol_canvas, slider_size);
+		gol.timeline.stop();
 		gol.board = gol.initBoard();
-		drawBoard();
+		gol.drawBoard(gol_canvas, getCellSize());
 	}
 	
 	@FXML
@@ -169,9 +127,8 @@ public class gui_controller implements Initializable {
 	}
 	
 	public void mouseClick(MouseEvent e) {
-		timeline.stop();
 		gol.blackify(slider_size);
-		drawBoard();
+		gol.drawBoard(gol_canvas, getCellSize());
 		}
 	
 }

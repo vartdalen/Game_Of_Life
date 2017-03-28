@@ -146,10 +146,10 @@ public class GameFunctions {
 	}
 	
 	
-	public void blackify (Slider slider_size) {
-		double cols, rows;
-		rows = getMouseXCoordinate(slider_size);
-		cols = getMouseYCoordinate(slider_size);
+	public void blackify (Slider slider_size, double x, double y) {
+		double rows = x / slider_size.getValue();
+		double cols = y / slider_size.getValue();
+		
 					
 		if (board[(int) cols][(int) rows] == 1) {
 			board[(int) cols][(int) rows] = 0;
@@ -161,19 +161,6 @@ public class GameFunctions {
 		
 		}
 	
-	public double getMouseXCoordinate(Slider slider_size) {
-		double RowCo;
-		RowCo = MouseInfo.getPointerInfo().getLocation().getX();
-		return RowCo / slider_size.getValue();
-
-	}
-	
-	public double getMouseYCoordinate(Slider slider_size) {
-		double ColCo;
-		ColCo = MouseInfo.getPointerInfo().getLocation().getY();
-		return ColCo / slider_size.getValue();
-		
-	}
 	
 	
 	public Timeline createTimeline(float animationTime) {

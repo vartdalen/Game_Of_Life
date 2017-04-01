@@ -1,6 +1,13 @@
 package model;
 
 import java.awt.MouseInfo;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Scanner;
 
 import controller.gui_controller;
 import javafx.animation.Animation;
@@ -10,21 +17,25 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import model.Cell;
 
 
-public class GameFunctions {
+public class GameFunctions extends java.io.Reader{
 	
 	
-	public byte [][] board = initBoard();
+	
 	public Timeline timeline;
-	private Color[] colors = new Color[] { Color.WHITE, Color.BLACK };
+	private Color[] colors = new Color[] {Color.WHITE, Color.BLACK };
+	private final int WIDTH = 100, HEIGHT = 100;
+	public byte [][] board = new byte[WIDTH][HEIGHT];
 	
 	public byte[][] initBoard() {
-		byte [][] board = {
+//		byte [][] board = {
 //				:::BLOCK:::
 //				{0,0,0,0},
 //				{0,1,1,0},
@@ -37,12 +48,12 @@ public class GameFunctions {
 //				{0,0,0,0,0},
 //				{0,0,0,0,0},
 //				:::GLIDER:::
-				{0,0,0,1,0,0,0,0,0},
-				{0,0,0,0,1,1,0,0,0},
-				{0,0,0,1,1,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0},
+//				{0,0,0,1,0,0,0,0,0},
+//				{0,0,0,0,1,1,0,0,0},
+//				{0,0,0,1,1,0,0,0,0},
+//				{0,0,0,0,0,0,0,0,0},
+//				{0,0,0,0,0,0,0,0,0},
+//				{0,0,0,0,0,0,0,0,0},
 //				:::PULSAR:::
 //				{0,0,0,0,0,0,0,0,0,0,0,0,0,0}, 
 //				{0,0,0,1,1,1,0,0,0,1,1,1,0,0}, 
@@ -59,7 +70,8 @@ public class GameFunctions {
 //				{0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 //				{0,0,0,1,1,1,0,0,0,1,1,1,0,0},
 //				{0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			   };
+//			   };
+
 		return board;
 	}
 	
@@ -126,7 +138,7 @@ public class GameFunctions {
 		//Passe på at vi ikke går utenfor brettet
         int minRow = Math.max(0, row - 1);
         int maxRow = Math.min(board.length - 1, row + 1); 
-        int minCol = Math.max(0, col - 1);  					
+        int minCol = Math.max(0, col - 1);
         int maxCol = Math.min(board[0].length - 1, col + 1); 	
 		
         int neighbourCount = 0;
@@ -214,7 +226,68 @@ public class GameFunctions {
 		
 		drawBoard(gol_canvas, slider_size);
 	}
+
+
+
+	@Override
+	public int read(char[] cbuf, int off, int len) throws IOException {
+		
+		return 0;
+	}
+
+
+
+	@Override
+	public void close() throws IOException {
+		
+	}
+
 	
+	public void readGameBoardFromDisk(File file) throws IOException, PatternFormatException {
+		try {
+			readGameBoard(new FileReader(file));
+		}
+		catch (IOException ex) {
+			Alert alertbox = new Alert(AlertType.ERROR);
+			alertbox.setTitle("Error");
+			alertbox.setHeaderText("File error!");
+			alertbox.setContentText(ex.getMessage());
+			alertbox.showAndWait();
+		}
+	}
 	
+	public void readGameBoard(Reader r) throws IOException {
+		Scanner inFile = new Scanner(r);
+//		String testString = "";
+		String pattern = "(\\d+.*?\\d+)";
+		inFile.nextLine();
+		while (inFile.hasNext()) {
+		
+			String testString = inFile.nextLine();
+			int x = testString.charAt(0);
+			int y = testString.charAt(2);
+			x = Character.getNumericValue(x);
+			y = Character.getNumericValue(y);
+			board[x][y] = 1;
+	}
 	
+}
+	
+//	public void readGameBoard(Reader r) throws IOException {
+//		Scanner inFile = new Scanner(r);
+//		String s = "";
+//		String pattern = "(\\d+.*?\\d+)";
+//		for (int i = 0; i < 100; i++) {
+//			if (inFile.hasNext()) {
+//				s = inFile.nextLine();
+//				if (s.matches(pattern)) {
+//					int x = s.charAt(0);
+//					int y = s.charAt(2);
+//					x = Character.getNumericValue(x);
+//					y = Character.getNumericValue(y);
+//					board[x][y] = 1;
+//				}
+//			}
+//		}
+		
 }

@@ -161,19 +161,13 @@ public class GameFunctions extends java.io.Reader{
 	public void blackify (Slider slider_size, double x, double y) {
 		double rows = x / slider_size.getValue();
 		double cols = y / slider_size.getValue();
-		
-					
 		if (board[(int) cols][(int) rows] == 1) {
 			board[(int) cols][(int) rows] = 0;
-		
 			} 
 		else if (board[(int)cols][(int)rows] == 0) {			
 				board[(int) cols][(int) rows] = 1;		
 			}
-		
 		}
-	
-	
 	
 	public Timeline createTimeline(float animationTime) {
 		Timeline timeline = new Timeline();
@@ -201,6 +195,7 @@ public class GameFunctions extends java.io.Reader{
 				cell.y = i*cellSize;
 				byte boardValue = board[i][j];
 				cell.draw(gc, cellSize, cellSize, boardValue, colors);
+				gc.strokeRect(cell.x, cell.y, cellSize, cellSize);
 			}
 		}
 	}
@@ -231,15 +226,11 @@ public class GameFunctions extends java.io.Reader{
 
 	@Override
 	public int read(char[] cbuf, int off, int len) throws IOException {
-		
 		return 0;
 	}
 
-
-
 	@Override
 	public void close() throws IOException {
-		
 	}
 
 	
@@ -262,32 +253,12 @@ public class GameFunctions extends java.io.Reader{
 		String pattern = "(\\d+.*?\\d+)";
 		inFile.nextLine();
 		while (inFile.hasNext()) {
-		
 			String testString = inFile.nextLine();
 			int x = testString.charAt(0);
 			int y = testString.charAt(2);
 			x = Character.getNumericValue(x);
 			y = Character.getNumericValue(y);
 			board[x][y] = 1;
-	}
-	
-}
-	
-//	public void readGameBoard(Reader r) throws IOException {
-//		Scanner inFile = new Scanner(r);
-//		String s = "";
-//		String pattern = "(\\d+.*?\\d+)";
-//		for (int i = 0; i < 100; i++) {
-//			if (inFile.hasNext()) {
-//				s = inFile.nextLine();
-//				if (s.matches(pattern)) {
-//					int x = s.charAt(0);
-//					int y = s.charAt(2);
-//					x = Character.getNumericValue(x);
-//					y = Character.getNumericValue(y);
-//					board[x][y] = 1;
-//				}
-//			}
-//		}
-		
+		}
+	}		
 }

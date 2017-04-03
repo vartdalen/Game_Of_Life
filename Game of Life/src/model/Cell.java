@@ -14,7 +14,6 @@ public class Cell {
 	public void draw(GraphicsContext gc, double size1, double size2, byte boardValue, Color[] colors) {
 		gc.setFill(colors[boardValue]);
 		gc.fillRect(x, y, size1, size2);
-		gc.strokeRect(x, y, size1, size2);
 	}
 	
 	

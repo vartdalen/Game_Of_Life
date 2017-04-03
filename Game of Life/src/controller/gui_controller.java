@@ -116,7 +116,7 @@ public class gui_controller implements Initializable {
 		gol.drawBoard(gol_canvas, slider_size.getValue());
 	}
 	
-	
+	@FXML
 	public void addURLClicked(ActionEvent e) {
 		/*
 		 * Kunne importere mønstre fra URL

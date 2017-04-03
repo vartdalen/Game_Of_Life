@@ -20,6 +20,7 @@ import javafx.scene.control.Button;
 //import javafx.scene.control.ColorPicker;
 //import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -44,6 +45,7 @@ public class gui_controller implements Initializable {
 	@FXML private Slider slider_size;
 	@FXML private Slider slider_speed;
 	@FXML private Canvas gol_canvas;
+	@FXML private TextField urlField;
 	private List<Cell> clist;
 	private GameFunctions gol = new GameFunctions();
 
@@ -108,6 +110,24 @@ public class gui_controller implements Initializable {
 			Alert alertbox = new Alert(AlertType.ERROR);
 			alertbox.setTitle("Error");
 			alertbox.setHeaderText("File error!");
+			alertbox.setContentText(ioe.getMessage());
+			alertbox.showAndWait();
+		}
+		gol.drawBoard(gol_canvas, slider_size.getValue());
+	}
+	
+	
+	public void addURLClicked(ActionEvent e) {
+		/*
+		 * Kunne importere mønstre fra URL
+		 * */
+		try {
+			gol.readGameBoardFromURL(urlField.getText());
+		}
+		catch (IOException | PatternFormatException ioe) {
+			Alert alertbox = new Alert(AlertType.ERROR);
+			alertbox.setTitle("Error");
+			alertbox.setHeaderText("URL error!");
 			alertbox.setContentText(ioe.getMessage());
 			alertbox.showAndWait();
 		}

@@ -6,7 +6,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Scanner;
 
 import controller.gui_controller;
@@ -207,10 +210,25 @@ public class GameFunctions extends java.io.Reader{
 		}
 	}
 	
+	public void readGameBoardFromURL(String url) throws IOException, PatternFormatException {
+		try {
+			URL destination = new URL(url);
+			URLConnection conn = destination.openConnection();
+			readGameBoard(new InputStreamReader(conn.getInputStream()));
+		}
+		catch (IOException ex) {
+			Alert alertbox = new Alert(AlertType.ERROR);
+			alertbox.setTitle("Error");
+			alertbox.setHeaderText("URL error!");
+			alertbox.setContentText(ex.getMessage());
+			alertbox.showAndWait();
+		}
+	}
+	
 	public void readGameBoard(Reader r) throws IOException {
 		Scanner inFile = new Scanner(r);
 //		String testString = "";
-		String pattern = "(\\d+.*?\\d+)";
+//		String pattern = "(\\d+.*?\\d+)";
 		inFile.nextLine();
 		while (inFile.hasNext()) {
 			String testString = inFile.nextLine();
@@ -220,5 +238,6 @@ public class GameFunctions extends java.io.Reader{
 			y = Character.getNumericValue(y);
 			board[x][y] = 1;
 		}
+		inFile.close();
 	}		
 }

@@ -30,9 +30,9 @@
 		<Button fx:id="btnStop" text="Stop" onAction="#stopBtnClicked"/>
 		<Button fx:id="btnClear" text="Clear" onAction="#clearBtnClicked"/>
 		<Label fx:id="label_size" text="Size"/>
-		<Slider value="50.0" max="100.0" min="7.0" fx:id="slider_size" onMouseDragged="#getCellSize"/>
+		<Slider value="50.0" max="100.0" min="7.0" fx:id="slider_size" onMouseDragged="#changeCellSize"/>
 		<Label fx:id="label_speed" text="Speed"/>
-		<Slider value="500.0" max="500.0" min="10.0" fx:id="slider_speed" onMouseDragged="#getAnimationSpeed"/>
+		<Slider value="500.0" max="500.0" min="10.0" fx:id="slider_speed" onMouseDragged="#changeAnimationSpeed"/>
 		<Button fx:id="btnImport" text="Import" onAction ="#importBtnClicked"/>
 	</VBox>
 	

@@ -44,52 +44,35 @@ public class gui_controller implements Initializable {
 	@FXML private Slider slider_size;
 	@FXML private Slider slider_speed;
 	@FXML private Canvas gol_canvas;
-	
 	private List<Cell> clist;
 	private GameFunctions gol = new GameFunctions();
-	
-	
-	
-	
+
 	
 	public void initialize(java.net.URL location,
-            java.util.ResourceBundle resources) {
-		
-	slider_speed.setValue((slider_speed.getValue()));
-	slider_size.setValue(slider_size.getValue());
-	slider_speed.valueProperty().addListener(new ChangeListener<Number>(){
-		@Override
-		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-			if (gol.timeline == null) {
-				return;
-			}
-			
-			gol.timeline.stop();
-			gol.timeline = gol.createTimeline(newValue.floatValue());
-			KeyFrame frame = new KeyFrame(Duration.millis(getAnimationSpeed()), new EventHandler<ActionEvent>(){
-					
-					@Override
-				public void handle(ActionEvent event) {
-					gol.applyRule();
-					gol.drawBoard(gol_canvas, getCellSize());
-				}});
-			
-			gol.timeline.getKeyFrames().add(frame);
-			gol.timeline.play();	
-			}});
-		
+            java.util.ResourceBundle resources) {	
 		clist = new ArrayList<Cell>();
-		gol.drawBoard(gol_canvas, getCellSize());
+		gol.drawBoard(gol_canvas, slider_size.getValue());
 	}
 	
+	@FXML
+	public void changeAnimationSpeed (MouseEvent e) {
+		gol.startTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+	}
 	
+	@FXML
+	public void changeCellSize(MouseEvent e) {
+		gol.drawBoard(gol_canvas, slider_size.getValue());
+	}
+	
+	@FXML
 	public void startBtnClicked(ActionEvent e) {
 		/*
 		 * Starte generering/forandring av celler
 		 * */
-		gol.startTimeline(gol_canvas, getAnimationSpeed(), getCellSize());
+		gol.startTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
 	}
 	
+	@FXML
 	public void stopBtnClicked(ActionEvent e) {
 		/*
 		 * Stoppe generering/forandring av celler
@@ -109,18 +92,6 @@ public class gui_controller implements Initializable {
 	}
 	
 	@FXML
-	private float getAnimationSpeed() {
-		return (float) slider_speed.getValue();
-	}
-	
-	
-	@FXML
-	public float getCellSize() {
-		//forandrer lengde og h�yde p� cellene
-		return (float)slider_size.getValue();
-		
-	}
-	
 	public void importBtnClicked(ActionEvent e) {
 		/*
 		 * Kunne importere andre m�nstre
@@ -140,18 +111,20 @@ public class gui_controller implements Initializable {
 			alertbox.setContentText(ioe.getMessage());
 			alertbox.showAndWait();
 		}
-		gol.drawBoard(gol_canvas, getCellSize());
+		gol.drawBoard(gol_canvas, slider_size.getValue());
 	}
 	
+	@FXML
 	public void exitEvent(ActionEvent event) {
 		System.exit(0);
 	}
 	
+	@FXML
 	public void mouseClick(MouseEvent e) {
 		double x = e.getX();
 		double y = e.getY();
 		gol.blackify(slider_size, x, y);
-		gol.drawBoard(gol_canvas, getCellSize());
+		gol.drawBoard(gol_canvas, slider_size.getValue());
 		}
 	
 }

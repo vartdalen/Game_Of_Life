@@ -34,47 +34,6 @@ public class GameFunctions extends java.io.Reader{
 	private final int WIDTH = 100, HEIGHT = 100;
 	public byte [][] board = new byte[WIDTH][HEIGHT];
 	
-	public byte[][] initBoard() {
-//		byte [][] board = {
-//				:::BLOCK:::
-//				{0,0,0,0},
-//				{0,1,1,0},
-//				{0,1,1,0},
-//				{0,0,0,0},
-//				:::BLINKER:::
-//				{0,0,0,0,0},
-//				{0,0,0,0,0},
-//				{0,1,1,1,0},
-//				{0,0,0,0,0},
-//				{0,0,0,0,0},
-//				:::GLIDER:::
-//				{0,0,0,1,0,0,0,0,0},
-//				{0,0,0,0,1,1,0,0,0},
-//				{0,0,0,1,1,0,0,0,0},
-//				{0,0,0,0,0,0,0,0,0},
-//				{0,0,0,0,0,0,0,0,0},
-//				{0,0,0,0,0,0,0,0,0},
-//				:::PULSAR:::
-//				{0,0,0,0,0,0,0,0,0,0,0,0,0,0}, 
-//				{0,0,0,1,1,1,0,0,0,1,1,1,0,0}, 
-//				{0,0,0,0,0,0,0,0,0,0,0,0,0,0}, 
-//				{0,1,0,0,0,0,1,0,1,0,0,0,1,0},
-//				{0,1,0,0,0,0,1,0,1,0,0,0,1,0},
-//				{0,1,0,0,0,0,1,0,1,0,0,0,1,0},
-//				{0,0,0,1,1,1,0,0,0,1,1,1,0,0},
-//				{0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-//				{0,0,0,1,1,1,0,0,0,1,1,1,0,0},
-//				{0,1,0,0,0,0,1,0,1,0,0,0,1,0},
-//				{0,1,0,0,0,0,1,0,1,0,0,0,1,0},
-//				{0,1,0,0,0,0,1,0,1,0,0,0,1,0},
-//				{0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-//				{0,0,0,1,1,1,0,0,0,1,1,1,0,0},
-//				{0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-//			   };
-
-		return board;
-	}
-	
 	
 
 	public byte[][] cloneByteArray() {
@@ -169,7 +128,7 @@ public class GameFunctions extends java.io.Reader{
 			}
 		}
 	
-	public Timeline createTimeline(float animationTime) {
+	public Timeline createTimeline() {
 		Timeline timeline = new Timeline();
 		timeline.setCycleCount(Animation.INDEFINITE);
 		
@@ -186,21 +145,22 @@ public class GameFunctions extends java.io.Reader{
 	}
 	
 	
-	public void drawBoard(Canvas gol_canvas, float cellSize) { //Draws the board
+	public void drawBoard(Canvas gol_canvas, double slider_size) { //Draws the board
 		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
 		Cell cell = new Cell();
+		gc.strokeRect(cell.x, cell.y, slider_size, slider_size);
 		for(int i = 0; i < board.length; i++) {
 			for(int j = 0; j < board[i].length; j++) {
-				cell.x = j*cellSize;
-				cell.y = i*cellSize;
+				cell.x = j*slider_size;
+				cell.y = i*slider_size;
 				byte boardValue = board[i][j];
-				cell.draw(gc, cellSize, cellSize, boardValue, colors);
-				gc.strokeRect(cell.x, cell.y, cellSize, cellSize);
+				cell.draw(gc, slider_size, slider_size, boardValue, colors);
+				gc.strokeRect(cell.x, cell.y, slider_size, slider_size);
 			}
 		}
 	}
 	
-	public void startTimeline(Canvas gol_canvas, float slider_speed, float slider_size) {
+	public void startTimeline(Canvas gol_canvas, double slider_speed, double slider_size) {
 		/*
 		 * Starte generering/forandring av celler
 		 * */
@@ -208,7 +168,7 @@ public class GameFunctions extends java.io.Reader{
 			timeline.stop();
 		}
 		
-		timeline = createTimeline(slider_speed);
+		timeline = createTimeline();
 		KeyFrame frame = new KeyFrame(Duration.millis(slider_speed), new EventHandler<ActionEvent>(){
 			
 			@Override

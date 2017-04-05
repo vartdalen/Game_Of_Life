@@ -7,7 +7,13 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.*;
-
+/**
+ * 
+ * Inneholder standardmetoder som launcher applikasjonen,
+ * henter data fra fxml, 
+ * og bruker disse dataene til aa sette opp vindu og grafisk brukergrensesnitt.
+ *
+ */
 public class gui_main extends Application {
 	
 	@Override

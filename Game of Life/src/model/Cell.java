@@ -1,20 +1,21 @@
 package model;
 
-import java.awt.MouseInfo;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Cell {
-		
-//		@FXML public Slider slider_size;
-		public double size = 50;
-//		public double OVHjørne,OHHjørne,NHHjørne,NVHjørne;
-		public double initialx,initialy;
-		
-		public void drawInitialCells(GraphicsContext gc) {
 
-			gc.setFill(Color.PURPLE);
-			gc.fillRect(initialx, initialy, size, size);
-		}
-			
+/**
+ * Kalles i drawBoard for å tegne celler.
+ * Double x, y: Verdier hentet fra forloop, multiplisert med størrelse for aa finne dimensjonene til en ny celle.
+ */
+public class Cell {
+
+	public double x;
+	public double y;
+	
+	public void draw(GraphicsContext gc, double size1, double size2, byte boardValue, Color[] colors) {
+		gc.setFill(colors[boardValue]);
+		gc.fillRect(x, y, size1, size2);
 	}
+	
+}

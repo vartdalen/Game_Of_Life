@@ -1,12 +1,11 @@
 package controller;
-import java.awt.MouseInfo;
-import java.awt.Point;
 //import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 //import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
@@ -18,9 +17,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import model.Cell;
-
+import model.GameFunctions;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+/**
+ * Herifra kalles funksjonene som styrer boardet.
+ */
 public class gui_controller implements Initializable {
+
 	
 	@FXML private Button btnStart;
 	@FXML private Button btnStop;
@@ -29,133 +38,109 @@ public class gui_controller implements Initializable {
 	@FXML private Slider slider_size;
 	@FXML private Slider slider_speed;
 	@FXML private Canvas gol_canvas;
-	private List<Cell> plist;
-
-	private byte [][] board = { //Mønster
-			{1,0,0,1}, 
-			{0,1,1,0}, 
-			{0,1,1,0}, 
-			{1,0,0,1}
-		   };
+	private List<Cell> clist;
+	private GameFunctions gol = new GameFunctions();
 	
-	private double initialSize = 50.0; //Cell-size
 	
+	
+	
+	/**
+	 * Kj�rer funksjoner som gj�r klar boardet med startverdier.
+	 */
 	public void initialize(java.net.URL location,
             java.util.ResourceBundle resources) {
-//		plist = new ArrayList<Cell>();
-		drawGrid(initialSize);
-	}
-	
-	private void drawGrid(double size) { //tegner opp mønster
-		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
-		Cell p = new Cell();
-		p.size = slider_size.getValue();
-		gc.clearRect(0, 0, gol_canvas.widthProperty().doubleValue(), gol_canvas.heightProperty().doubleValue());
-		for(int i = 0; i<board.length; i++) {
-			for(int j = 0; j<board[i].length; j++){
-				if(board[i][j] == 1) {
-				p.initialy = i*p.size;
-				p.initialx = j*p.size;
-				p.drawInitialCells(gc);
-//				System.out.println(p.size);
-				}
+		
+	slider_speed.setValue((slider_speed.getValue()));
+	slider_size.setValue(slider_size.getValue());
+	slider_speed.valueProperty().addListener(new ChangeListener<Number>(){
+		@Override
+		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+			if (gol.timeline == null) {
+				return;
 			}
-		}
+			
+			gol.timeline.stop();
+			gol.timeline = gol.createTimeline(newValue.floatValue());
+			KeyFrame frame = new KeyFrame(Duration.millis(getAnimationSpeed()), new EventHandler<ActionEvent>(){
+					
+					@Override
+				public void handle(ActionEvent event) {
+					gol.applyRule();
+					gol.drawBoard(gol_canvas, getCellSize());
+				}});
+			
+			gol.timeline.getKeyFrames().add(frame);
+			gol.timeline.play();	
+			}});
 		
-//		gc.clearRect(0, 0, gol_canvas.widthProperty().doubleValue(), gol_canvas.heightProperty().doubleValue());
-//		for( Cell p : plist) {
-//			p.draw(gc, Color.RED,slider_size.getValue());
-//		}
+		clist = new ArrayList<Cell>();
+		gol.drawBoard(gol_canvas, getCellSize());
 	}
 	
-//	public void blackify2 (double a, double b, double size) {
-//		
-//		board[i][j] = a + b / size;
-//		
-//	}
-	
-	public void blackify (MouseEvent e) {
-		
-		double cols, rows;
-		
-				rows = getMouseXCoordinate();
-				cols = getMouseYCoordinate();
-					
-				if (board[(int) cols][(int) rows] == 1) {
-					
-					board[(int) cols][(int) rows] = 0;
-					drawGrid(slider_size.getValue());
-					
-				} else if (board[(int)cols][(int)rows] == 0) {
-					
-					board[(int) cols][(int) rows] = 1;
-					drawGrid(slider_size.getValue());
-					
-				}
-				
-		System.out.println(getMouseXCoordinate());
-		System.out.println(getMouseYCoordinate());
-		
-	}
-	
-	public double getMouseXCoordinate() {
-		
-		double RowCo;
-		
-		RowCo = MouseInfo.getPointerInfo().getLocation().getX();
-		
-		return RowCo / slider_size.getValue();
-
-	}
-	
-	public double getMouseYCoordinate() {
-		
-		double ColCo;
-		
-		ColCo = MouseInfo.getPointerInfo().getLocation().getY();
-		
-		return ColCo / slider_size.getValue();
-		
-	}
 	
 	public void startBtnClicked(ActionEvent e) {
 		/*
 		 * Starte generering/forandring av celler
 		 * */
+		gol.startTimeline(gol_canvas, getAnimationSpeed(), getCellSize());
 	}
 	
 	public void stopBtnClicked(ActionEvent e) {
 		/*
 		 * Stoppe generering/forandring av celler
 		 * */
-	}
-	
-	public void clearBtnClicked(ActionEvent e) {
-		
-		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
-		gc.clearRect(0, 0, gol_canvas.widthProperty().doubleValue(), gol_canvas.heightProperty().doubleValue());
-	
-	}
-	
-	public void changeSpeed(ActionEvent e) {
-		/*
-		 * Endre hastighet på celle generering
-		 * */
+		if (gol.timeline != null) {
+			gol.timeline.stop();
+		}
 	}
 	
 	@FXML
-	public void changeSize(MouseEvent e) {
+	public void clearBtnClicked(ActionEvent e) {
 		/*
-		 * Endre størrelse på cellene
+		 * fjerne eksisterende celler -> blanke ark.
 		 * */
-		double newSize = slider_size.getValue();
-		drawGrid(newSize);
+
+		gol.clearCanvas(gol_canvas, slider_size);
+		gol.timeline.stop();
+		gol.board = gol.initBoard();
+		gol.drawBoard(gol_canvas, getCellSize());
+	}
+	
+	@FXML
+	private float getAnimationSpeed() {
+		return (float) slider_speed.getValue();
+	}
+	
+	
+	@FXML
+	public float getCellSize() {
+		
+		//forandrer lengde og h�yde p� cellene
+		return (float)slider_size.getValue();
+		
 	}
 	
 	public void importBtnClicked(ActionEvent e) {
 		/*
-		 * Kunne importere andre mønstre
+		 * Kunne importere andre m�nstre
 		 * */
 	}
+	
+	public void exitEvent(ActionEvent event) {
+		System.exit(0);
+	}
+	
+	/**
+	 * Ved museklikk blir x og y koordinatverdi(double) hentet og delt pa cellestorrelse.
+	 * Gjenvaerende verdier blir castet til (int) og satt inn i board.
+	 * Boardet tegnes pa nytt med de nye verdiene.
+	 * @param e Bruker MouseEvent for a hente x og y verdier.
+	 */
+	public void mouseClick(MouseEvent e) {
+		double x = e.getX();
+		double y = e.getY();
+		gol.blackify(slider_size, x, y);
+		gol.drawBoard(gol_canvas, getCellSize());
+		}
 	
 }

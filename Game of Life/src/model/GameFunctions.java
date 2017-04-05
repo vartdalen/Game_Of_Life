@@ -36,6 +36,7 @@ public class GameFunctions extends java.io.Reader{
 	private Color[] colors = new Color[] {Color.WHITE, Color.BLACK };
 	private final int WIDTH = 100, HEIGHT = 100;
 	public byte [][] board = new byte[WIDTH][HEIGHT];
+	private Cell cell = new Cell();
 	
 	
 
@@ -150,16 +151,26 @@ public class GameFunctions extends java.io.Reader{
 	
 	public void drawBoard(Canvas gol_canvas, double slider_size) { //Draws the board
 		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
-		Cell cell = new Cell();
-		gc.strokeRect(cell.x, cell.y, slider_size, slider_size);
 		for(int i = 0; i < board.length; i++) {
 			for(int j = 0; j < board[i].length; j++) {
 				cell.x = j*slider_size;
 				cell.y = i*slider_size;
 				byte boardValue = board[i][j];
 				cell.draw(gc, slider_size, slider_size, boardValue, colors);
-				gc.strokeRect(cell.x, cell.y, slider_size, slider_size);
 			}
+		}
+	}
+	
+
+	public void drawGrid(Canvas gol_canvas, double slider_size) {
+		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
+		gc.setFill(Color.BLACK);
+		gc.setStroke(Color.BLACK);
+		for (double i = 0; i < gol_canvas.getWidth(); i+= slider_size){
+			gc.strokeLine(i, 1000, i, 0);
+		}
+		for (double j = 0; j < gol_canvas.getHeight(); j+= slider_size){
+			gc.strokeLine(0, j, 1000, j);
 		}
 	}
 	
@@ -178,6 +189,7 @@ public class GameFunctions extends java.io.Reader{
 			public void handle(ActionEvent event) {
 				applyRule();
 				drawBoard(gol_canvas, slider_size);
+				drawGrid(gol_canvas, slider_size);
 			}});
 		timeline.getKeyFrames().add(frame);
 		timeline.play();
@@ -196,6 +208,51 @@ public class GameFunctions extends java.io.Reader{
 	public void close() throws IOException {
 	}
 
+	
+	private byte[] getBoundingBox() {
+		byte[] boundingBox = new byte[4];
+		boundingBox[0] = (byte) board.length;
+		boundingBox[1] = 0;
+		boundingBox[2] = (byte) board[0].length;
+		boundingBox[3] = 0;
+		for(byte i = 0; i < board.length; i++) {
+			for(byte j = 0; j < board[i].length; j++) {
+				if (board[i][j] == 0) continue;
+				if (i < boundingBox[0]) {
+					boundingBox[0] = i;
+				}
+				if(i > boundingBox[1]) {
+					boundingBox[1] = i;
+				}
+				if(j < boundingBox[2]) {
+					boundingBox[2] = j;
+				}
+				if(j > boundingBox[3]) {
+					boundingBox[3] = j;
+				}
+			}
+		}
+		return boundingBox;
+	}
+	
+	
+	public String getBoundingBoxPattern() {
+		if (board.length == 0) return "";
+		
+		byte[] boundingBox = getBoundingBox();
+		String str = "";
+		for(int i = boundingBox[0]; i <= boundingBox[1]; i++) {
+			for(int j = boundingBox[2]; j <= boundingBox[3]; j++) {
+				if (board[i][j] == 1) {
+					str = str + "1";
+				}
+				else {
+					str = str + "0";
+				}
+			}
+		}
+		return str;
+	}
 	
 	public void readGameBoardFromDisk(File file) throws IOException, PatternFormatException {
 		try {

@@ -54,16 +54,20 @@ public class gui_controller implements Initializable {
             java.util.ResourceBundle resources) {	
 		clist = new ArrayList<Cell>();
 		gol.drawBoard(gol_canvas, slider_size.getValue());
+		gol.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
 	@FXML
 	public void changeAnimationSpeed (MouseEvent e) {
 		gol.startTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+		gol.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
 	@FXML
 	public void changeCellSize(MouseEvent e) {
-		gol.drawBoard(gol_canvas, slider_size.getValue());
+		gol.startTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+		gol.drawGrid(gol_canvas, slider_size.getValue());
+		
 	}
 	
 	@FXML
@@ -72,6 +76,7 @@ public class gui_controller implements Initializable {
 		 * Starte generering/forandring av celler
 		 * */
 		gol.startTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+		gol.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
 	@FXML
@@ -90,6 +95,7 @@ public class gui_controller implements Initializable {
 		 * fjerne eksisterende celler -> blanke ark.
 		 * */
 		gol.clearCanvas(gol_canvas, slider_size);
+		gol.drawGrid(gol_canvas, slider_size.getValue());
 		gol.board = new byte[100][100];
 	}
 	
@@ -114,6 +120,7 @@ public class gui_controller implements Initializable {
 			alertbox.showAndWait();
 		}
 		gol.drawBoard(gol_canvas, slider_size.getValue());
+		gol.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
 	@FXML
@@ -132,6 +139,7 @@ public class gui_controller implements Initializable {
 			alertbox.showAndWait();
 		}
 		gol.drawBoard(gol_canvas, slider_size.getValue());
+		gol.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
 	@FXML
@@ -145,6 +153,6 @@ public class gui_controller implements Initializable {
 		double y = e.getY();
 		gol.blackify(slider_size, x, y);
 		gol.drawBoard(gol_canvas, slider_size.getValue());
-		}
-	
+		gol.drawGrid(gol_canvas, slider_size.getValue());
+	}
 }

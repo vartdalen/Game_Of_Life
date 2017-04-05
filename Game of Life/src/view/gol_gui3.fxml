@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
 
 
 <GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.gui_controller">
@@ -30,10 +31,19 @@
 		<Button fx:id="btnStop" text="Stop" onAction="#stopBtnClicked"/>
 		<Button fx:id="btnClear" text="Clear" onAction="#clearBtnClicked"/>
 		<Label fx:id="label_size" text="Size"/>
+<<<<<<< HEAD
 		<Slider value="50.0" max="100.0" min="1.0" fx:id="slider_size" onMouseDragged="#getCellSize"/>
 		<Label fx:id="label_speed" text="Speed"/>
 		<Slider value="500.0" max="500.0" min="10.0" fx:id="slider_speed" onMouseDragged="#getAnimationSpeed"/>
 		<Button fx:id="btnImport" text="Import"/>
+=======
+		<Slider value="50.0" max="100.0" min="7.0" fx:id="slider_size" onMouseDragged="#changeCellSize"/>
+		<Label fx:id="label_speed" text="Speed"/>
+		<Slider value="500.0" max="500.0" min="10.0" fx:id="slider_speed" onMouseDragged="#changeAnimationSpeed"/>
+		<Button fx:id="btnImport" text="Import" onAction ="#importBtnClicked"/>
+		<TextField fx:id="urlField" text="Insert url"/>
+		<Button fx:id="btnAddUrl" text="Add URL" onAction ="#addURLClicked"/>
+>>>>>>> dag
 	</VBox>
 	
 </GridPane>

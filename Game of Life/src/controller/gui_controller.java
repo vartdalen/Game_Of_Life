@@ -151,6 +151,7 @@ public class gui_controller implements Initializable {
 	public void mouseClick(MouseEvent e) {
 		double x = e.getX();
 		double y = e.getY();
+		gol.timeline.pause();
 		gol.blackify(slider_size, x, y);
 		gol.drawBoard(gol_canvas, slider_size.getValue());
 		gol.drawGrid(gol_canvas, slider_size.getValue());

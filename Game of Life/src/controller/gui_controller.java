@@ -23,6 +23,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import model.Cell;
@@ -46,6 +47,7 @@ public class gui_controller implements Initializable {
 	@FXML private Slider slider_speed;
 	@FXML private Canvas gol_canvas;
 	@FXML private TextField urlField;
+	@FXML private Text generationCount;
 	private List<Cell> clist;
 	private GameFunctions gol = new GameFunctions();
 
@@ -59,13 +61,13 @@ public class gui_controller implements Initializable {
 	
 	@FXML
 	public void changeAnimationSpeed (MouseEvent e) {
-		gol.startTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+		gol.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
 		gol.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
 	@FXML
 	public void changeCellSize(MouseEvent e) {
-		gol.startTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+		gol.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
 		gol.drawGrid(gol_canvas, slider_size.getValue());
 		
 	}
@@ -75,7 +77,7 @@ public class gui_controller implements Initializable {
 		/*
 		 * Starte generering/forandring av celler
 		 * */
-		gol.startTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+		gol.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
 		gol.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
@@ -151,7 +153,6 @@ public class gui_controller implements Initializable {
 	public void mouseClick(MouseEvent e) {
 		double x = e.getX();
 		double y = e.getY();
-		gol.timeline.pause();
 		gol.blackify(slider_size, x, y);
 		gol.drawBoard(gol_canvas, slider_size.getValue());
 		gol.drawGrid(gol_canvas, slider_size.getValue());

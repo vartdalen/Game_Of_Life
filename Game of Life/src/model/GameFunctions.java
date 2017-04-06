@@ -174,7 +174,7 @@ public class GameFunctions extends java.io.Reader{
 		}
 	}
 	
-	public void startTimeline(Canvas gol_canvas, double slider_speed, double slider_size) {
+	public void newTimeline(Canvas gol_canvas, double slider_speed, double slider_size) {
 		/*
 		 * Starte generering/forandring av celler
 		 * */

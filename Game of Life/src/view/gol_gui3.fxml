@@ -1,6 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <?package view>
 <?xml version="1.0" encoding="UTF-8"?>
-	
+<?import java.lang.*?>
+<?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -12,31 +15,54 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 
-
-<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.gui_controller">
-	
-	
-	<VBox prefWidth="800" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" GridPane.rowSpan="1"></VBox>
-	
-	
-	<HBox styleClass="gol_canvas" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="1" GridPane.rowSpan="1">
-		<stylesheets><URL value="@styling.css" /></stylesheets>
-		<Canvas fx:id="gol_canvas" width="700" height="600" onMouseClicked="#mouseClick"/>
-	</HBox>
-	
-	
-	<VBox GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="1" GridPane.rowSpan="1" spacing="20">
-		<padding><Insets top="30" right="20" bottom="0" left="20"/></padding>
-		<Button fx:id="btnStart" text="Start" onAction ="#startBtnClicked"/>
-		<Button fx:id="btnStop" text="Stop" onAction="#stopBtnClicked"/>
-		<Button fx:id="btnClear" text="Clear" onAction="#clearBtnClicked"/>
-		<Label fx:id="label_size" text="Size"/>
-		<Slider value="50.0" max="100.0" min="7.0" fx:id="slider_size" onMouseDragged="#changeCellSize"/>
-		<Label fx:id="label_speed" text="Speed"/>
-		<Slider value="500.0" max="500.0" min="10.0" fx:id="slider_speed" onMouseDragged="#changeAnimationSpeed"/>
-		<Button fx:id="btnImport" text="Import" onAction ="#importBtnClicked"/>
-		<TextField fx:id="urlField" text="Insert url"/>
-		<Button fx:id="btnAddUrl" text="Add URL" onAction ="#addURLClicked"/>
-	</VBox>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="controller.gui_controller">
+   <children>
+   	
+   	
+   	<VBox prefWidth="800" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" GridPane.rowSpan="1" />
+   	
+   	
+   	<HBox styleClass="gol_canvas" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.rowIndex="1" GridPane.rowSpan="1">
+   		<stylesheets>
+            <URL value="@styling.css" />
+         </stylesheets>
+      <children>
+      		<Canvas fx:id="gol_canvas" height="600" onMouseClicked="#mouseClick" width="700" />
+      </children>
+   	</HBox>
+   	
+   	
+   	<VBox spacing="20" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="1" GridPane.rowSpan="1">
+   		<padding>
+            <Insets bottom="0" left="20" right="20" top="30" />
+         </padding>
+      <children>
+      		<Button fx:id="btnStart" onAction="#startBtnClicked" text="Start" />
+      		<Button fx:id="btnStop" onAction="#stopBtnClicked" text="Stop" />
+      		<Button fx:id="btnClear" onAction="#clearBtnClicked" text="Clear" />
+      		<Label fx:id="label_size" text="Size" />
+      		<Slider fx:id="slider_size" max="100.0" min="7.0" onMouseDragged="#changeCellSize" value="50.0" />
+      		<Label fx:id="label_speed" text="Speed" />
+      		<Slider fx:id="slider_speed" max="500.0" min="10.0" onMouseDragged="#changeAnimationSpeed" value="500.0" />
+      		<Button fx:id="btnImport" onAction="#importBtnClicked" text="Import" />
+      		<TextField fx:id="urlField" text="Insert url" />
+      		<Button fx:id="btnAddUrl" onAction="#addURLClicked" text="Add URL" />
+            <HBox alignment="BOTTOM_LEFT" prefHeight="138.0" prefWidth="200.0">
+               <children>
+                  <Label text="Generation: " />
+                  <Text fx:id="generationCount" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children>
+            </HBox>
+      </children>
+   	</VBox>
+   </children>
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
 	
 </GridPane>

@@ -96,6 +96,7 @@ public class gui_controller implements Initializable {
 		/*
 		 * fjerne eksisterende celler -> blanke ark.
 		 * */
+		gol.timeline.stop();
 		gol.clearCanvas(gol_canvas, slider_size);
 		gol.drawGrid(gol_canvas, slider_size.getValue());
 		gol.board = new byte[100][100];

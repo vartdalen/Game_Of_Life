@@ -8,12 +8,9 @@ public class Cell {
 	public double x;
 	public double y;
 	
-	
-	
-	
-	public void draw(GraphicsContext gc, double size1, double size2, byte boardValue, Color[] colors) {
+	public void draw(GraphicsContext gc, double size, byte boardValue, Color[] colors) {
 		gc.setFill(colors[boardValue]);
-		gc.fillRect(x, y, size1, size2);
+		gc.fillRect(x, y, size, size);
 		
 	}
 	

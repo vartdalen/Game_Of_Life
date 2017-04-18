@@ -67,9 +67,10 @@ public class gui_controller implements Initializable {
 	
 	@FXML
 	public void changeCellSize(MouseEvent e) {
+		gol.clearCanvas(gol_canvas, slider_size);
 		gol.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+		gol.drawBoard(gol_canvas, slider_size.getValue());
 		gol.drawGrid(gol_canvas, slider_size.getValue());
-		
 	}
 	
 	@FXML
@@ -96,7 +97,9 @@ public class gui_controller implements Initializable {
 		/*
 		 * fjerne eksisterende celler -> blanke ark.
 		 * */
-		gol.timeline.stop();
+		if(gol.timeline != null) {
+			gol.timeline.stop();
+		}
 		gol.clearCanvas(gol_canvas, slider_size);
 		gol.drawGrid(gol_canvas, slider_size.getValue());
 		gol.board = new byte[100][100];
@@ -111,16 +114,17 @@ public class gui_controller implements Initializable {
 		FileChooser.ExtensionFilter Filter = new FileChooser.ExtensionFilter("TXT files (*.txt), LIF files (*.lif)", "*.txt, *.lif");
 		fileChooser.getExtensionFilters().add(Filter);
 		File file = fileChooser.showOpenDialog(btnImport.getScene().getWindow());
-
-		try {
-			gol.readGameBoardFromDisk(file);
-		}
-		catch (IOException | PatternFormatException ioe) {
-			Alert alertbox = new Alert(AlertType.ERROR);
-			alertbox.setTitle("Error");
-			alertbox.setHeaderText("File error!");
-			alertbox.setContentText(ioe.getMessage());
-			alertbox.showAndWait();
+		if (file != null) {
+			try {
+				gol.readGameBoardFromDisk(file);
+			}
+			catch (IOException | PatternFormatException ioe) {
+				Alert alertbox = new Alert(AlertType.ERROR);
+				alertbox.setTitle("Error");
+				alertbox.setHeaderText("File error!");
+				alertbox.setContentText(ioe.getMessage());
+				alertbox.showAndWait();
+			}
 		}
 		gol.drawBoard(gol_canvas, slider_size.getValue());
 		gol.drawGrid(gol_canvas, slider_size.getValue());

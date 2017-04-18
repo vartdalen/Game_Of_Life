@@ -156,7 +156,7 @@ public class GameFunctions extends java.io.Reader{
 				cell.x = j*slider_size;
 				cell.y = i*slider_size;
 				byte boardValue = board[i][j];
-				cell.draw(gc, slider_size, slider_size, boardValue, colors);
+				cell.draw(gc, slider_size, boardValue, colors);
 			}
 		}
 	}

@@ -80,6 +80,7 @@ public class gui_controller implements Initializable {
 		 * */
 		gol.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
 		gol.drawGrid(gol_canvas, slider_size.getValue());
+		gol.timeline.play();
 	}
 	
 	@FXML

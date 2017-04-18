@@ -192,7 +192,6 @@ public class GameFunctions extends java.io.Reader{
 				drawGrid(gol_canvas, slider_size);
 			}});
 		timeline.getKeyFrames().add(frame);
-		timeline.play();
 		
 		drawBoard(gol_canvas, slider_size);
 	}

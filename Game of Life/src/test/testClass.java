@@ -11,8 +11,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import model.GameFunctions;
 import model.PatternFormatException;
+import model.fileReader;
 
 public class testClass {
+	
+	GameFunctions gol = new GameFunctions();
 	private byte[][] board = {
 			
             { 0, 0, 0, 0 },
@@ -29,9 +32,8 @@ public class testClass {
 	@Test
 	public void testNextGeneration() { 
 
-	GameFunctions gol = new GameFunctions();
 	gol.setBoard(board);
-	gol.nextGen(); 
+	gol.board.nextGen(); 
 	org.junit.Assert.assertEquals(gol.toString(),"0000011001100100000000000000");
 
 	}
@@ -39,10 +41,10 @@ public class testClass {
 
 	@Test
 	public void testReadGameBoard() {
-		GameFunctions gol = new GameFunctions();
+		fileReader reader = new fileReader();
 		File file = new File("/Users/DagBrede/Desktop/test.lif");
 		try {
-			gol.readGameBoardFromDisk(file);
+			reader.readGameBoardFromDisk(file, board);
 		} 
 		catch (IOException | PatternFormatException ioe) {
 			Alert alertbox = new Alert(AlertType.ERROR);
@@ -52,7 +54,7 @@ public class testClass {
 			alertbox.showAndWait();
 		}
 		
-		org.junit.Assert.assertEquals(gol.getBoundingBoxPattern(),"001101011");
+		org.junit.Assert.assertEquals(gol.getBoundingBoxPattern(),"0000011001100100000000000000");
 		
 	}
 	

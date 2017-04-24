@@ -105,11 +105,11 @@ public class GameFunctions{
 		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
 		gc.setFill(Color.BLACK);
 		gc.setStroke(Color.BLACK);
-		for (double i = 0; i < gol_canvas.getWidth(); i+= slider_size){
-			gc.strokeLine(i, 1000, i, 0);
-		}
 		for (double j = 0; j < gol_canvas.getHeight(); j+= slider_size){
 			gc.strokeLine(0, j, 1000, j);
+		}
+		for (double i = 0; i < gol_canvas.getWidth(); i+= slider_size){
+			gc.strokeLine(i, 1000, i, 0);
 		}
 	}
 	

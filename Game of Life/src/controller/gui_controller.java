@@ -1,42 +1,21 @@
 package controller;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-//import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-//import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-//import javafx.scene.control.Button;
-//import javafx.scene.control.ColorPicker;
-//import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.util.Duration;
-import model.Cell;
 import model.GameFunctions;
 import model.PatternFormatException;
 import model.fileReader;
-import model.gui_main;
-import model.staticBoard;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
 public class gui_controller implements Initializable {
 
@@ -50,14 +29,12 @@ public class gui_controller implements Initializable {
 	@FXML private Canvas gol_canvas;
 	@FXML private TextField urlField;
 	@FXML private Text generationCount;
-	private List<Cell> clist;
 	private GameFunctions functions = new GameFunctions();
 	private fileReader reader = new fileReader();
 
 	
 	public void initialize(java.net.URL location,
             java.util.ResourceBundle resources) {	
-		clist = new ArrayList<Cell>();
 		functions.drawBoard(gol_canvas, slider_size.getValue());
 		functions.drawGrid(gol_canvas, slider_size.getValue());
 	}
@@ -106,7 +83,7 @@ public class gui_controller implements Initializable {
 		}
 		functions.clearCanvas(gol_canvas, slider_size);
 		functions.drawGrid(gol_canvas, slider_size.getValue());
-		functions.board.gameBoard = new byte[100][100];
+		functions = new GameFunctions();
 	}
 	
 	@FXML
@@ -120,7 +97,7 @@ public class gui_controller implements Initializable {
 		File file = fileChooser.showOpenDialog(btnImport.getScene().getWindow());
 		if (file != null) {
 			try {
-				reader.readGameBoardFromDisk(file, functions.board.getStaticBoard());
+				reader.readGameBoardFromDisk(file, functions.board);
 			}
 			catch (IOException | PatternFormatException ioe) {
 				Alert alertbox = new Alert(AlertType.ERROR);
@@ -140,7 +117,7 @@ public class gui_controller implements Initializable {
 		 * Kunne importere mønstre fra URL
 		 * */
 		try {
-			reader.readGameBoardFromURL(urlField.getText(), functions.board.getStaticBoard());
+			reader.readGameBoardFromURL(urlField.getText(), functions.board);
 		}
 		catch (IOException | PatternFormatException ioe) {
 			Alert alertbox = new Alert(AlertType.ERROR);

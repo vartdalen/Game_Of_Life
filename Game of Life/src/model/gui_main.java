@@ -3,9 +3,6 @@ package model;
 import javafx.application.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import javafx.stage.*;
 
 public class gui_main extends Application {

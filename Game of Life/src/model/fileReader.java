@@ -15,7 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 public class fileReader extends java.io.Reader {
 	
 	
-	public void readGameBoardFromDisk(File file, byte[][] board) throws IOException, PatternFormatException {
+	public void readGameBoardFromDisk(File file, Board board) throws IOException, PatternFormatException {
 		try {
 			readGameBoard(new FileReader(file), board);
 		}
@@ -29,7 +29,7 @@ public class fileReader extends java.io.Reader {
 	}
 
 	
-	public void readGameBoardFromURL(String url, byte[][] board) throws IOException, PatternFormatException {
+	public void readGameBoardFromURL(String url, Board board) throws IOException, PatternFormatException {
 		try {
 			URL destination = new URL(url);
 			URLConnection conn = destination.openConnection();
@@ -44,7 +44,7 @@ public class fileReader extends java.io.Reader {
 		}
 	}
 	
-	public void readGameBoard(Reader r, byte[][] board) throws IOException {
+	public void readGameBoard(Reader r, Board board) throws IOException {
 		Scanner inFile = new Scanner(r);
 //		String testString = "";
 //		String pattern = "(\\d+.*?\\d+)";
@@ -55,7 +55,7 @@ public class fileReader extends java.io.Reader {
 			int y = testString.charAt(2);
 			x = Character.getNumericValue(x);
 			y = Character.getNumericValue(y);
-			board[x][y] = 1;
+			board.setCellState(x, y, true);
 		}
 		inFile.close();
 	}

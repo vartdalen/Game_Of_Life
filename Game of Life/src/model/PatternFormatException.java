@@ -1,5 +1,6 @@
 package model;
 
+@SuppressWarnings("serial")
 public class PatternFormatException extends Exception {
 	
 	public PatternFormatException(String msg) {

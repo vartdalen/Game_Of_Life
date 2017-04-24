@@ -29,7 +29,9 @@ import javafx.util.Duration;
 import model.Cell;
 import model.GameFunctions;
 import model.PatternFormatException;
+import model.fileReader;
 import model.gui_main;
+import model.staticBoard;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -49,28 +51,29 @@ public class gui_controller implements Initializable {
 	@FXML private TextField urlField;
 	@FXML private Text generationCount;
 	private List<Cell> clist;
-	private GameFunctions gol = new GameFunctions();
+	private GameFunctions functions = new GameFunctions();
+	private fileReader reader = new fileReader();
 
 	
 	public void initialize(java.net.URL location,
             java.util.ResourceBundle resources) {	
 		clist = new ArrayList<Cell>();
-		gol.drawBoard(gol_canvas, slider_size.getValue());
-		gol.drawGrid(gol_canvas, slider_size.getValue());
+		functions.drawBoard(gol_canvas, slider_size.getValue());
+		functions.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
 	@FXML
 	public void changeAnimationSpeed (MouseEvent e) {
-		gol.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
-		gol.drawGrid(gol_canvas, slider_size.getValue());
+		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+		functions.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
 	@FXML
 	public void changeCellSize(MouseEvent e) {
-		gol.clearCanvas(gol_canvas, slider_size);
-		gol.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
-		gol.drawBoard(gol_canvas, slider_size.getValue());
-		gol.drawGrid(gol_canvas, slider_size.getValue());
+		functions.clearCanvas(gol_canvas, slider_size);
+		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+		functions.drawBoard(gol_canvas, slider_size.getValue());
+		functions.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
 	@FXML
@@ -78,9 +81,9 @@ public class gui_controller implements Initializable {
 		/*
 		 * Starte generering/forandring av celler
 		 * */
-		gol.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
-		gol.drawGrid(gol_canvas, slider_size.getValue());
-		gol.timeline.play();
+		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+		functions.drawGrid(gol_canvas, slider_size.getValue());
+		functions.timeline.play();
 	}
 	
 	@FXML
@@ -88,8 +91,8 @@ public class gui_controller implements Initializable {
 		/*
 		 * Stoppe generering/forandring av celler
 		 * */
-		if (gol.timeline != null) {
-			gol.timeline.stop();
+		if (functions.timeline != null) {
+			functions.timeline.stop();
 		}
 	}
 	
@@ -98,12 +101,12 @@ public class gui_controller implements Initializable {
 		/*
 		 * fjerne eksisterende celler -> blanke ark.
 		 * */
-		if(gol.timeline != null) {
-			gol.timeline.stop();
+		if(functions.timeline != null) {
+			functions.timeline.stop();
 		}
-		gol.clearCanvas(gol_canvas, slider_size);
-		gol.drawGrid(gol_canvas, slider_size.getValue());
-		gol.board = new byte[100][100];
+		functions.clearCanvas(gol_canvas, slider_size);
+		functions.drawGrid(gol_canvas, slider_size.getValue());
+		functions.board.gameBoard = new byte[100][100];
 	}
 	
 	@FXML
@@ -117,7 +120,7 @@ public class gui_controller implements Initializable {
 		File file = fileChooser.showOpenDialog(btnImport.getScene().getWindow());
 		if (file != null) {
 			try {
-				gol.readGameBoardFromDisk(file);
+				reader.readGameBoardFromDisk(file, functions.board.getStaticBoard());
 			}
 			catch (IOException | PatternFormatException ioe) {
 				Alert alertbox = new Alert(AlertType.ERROR);
@@ -127,8 +130,8 @@ public class gui_controller implements Initializable {
 				alertbox.showAndWait();
 			}
 		}
-		gol.drawBoard(gol_canvas, slider_size.getValue());
-		gol.drawGrid(gol_canvas, slider_size.getValue());
+		functions.drawBoard(gol_canvas, slider_size.getValue());
+		functions.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
 	@FXML
@@ -137,7 +140,7 @@ public class gui_controller implements Initializable {
 		 * Kunne importere mønstre fra URL
 		 * */
 		try {
-			gol.readGameBoardFromURL(urlField.getText());
+			reader.readGameBoardFromURL(urlField.getText(), functions.board.getStaticBoard());
 		}
 		catch (IOException | PatternFormatException ioe) {
 			Alert alertbox = new Alert(AlertType.ERROR);
@@ -146,8 +149,8 @@ public class gui_controller implements Initializable {
 			alertbox.setContentText(ioe.getMessage());
 			alertbox.showAndWait();
 		}
-		gol.drawBoard(gol_canvas, slider_size.getValue());
-		gol.drawGrid(gol_canvas, slider_size.getValue());
+		functions.drawBoard(gol_canvas, slider_size.getValue());
+		functions.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
 	@FXML
@@ -159,8 +162,8 @@ public class gui_controller implements Initializable {
 	public void mouseClick(MouseEvent e) {
 		double x = e.getX();
 		double y = e.getY();
-		gol.blackify(slider_size, x, y);
-		gol.drawBoard(gol_canvas, slider_size.getValue());
-		gol.drawGrid(gol_canvas, slider_size.getValue());
+		functions.blackify(slider_size, x, y);
+		functions.drawBoard(gol_canvas, slider_size.getValue());
+		functions.drawGrid(gol_canvas, slider_size.getValue());
 	}
 }

@@ -1,18 +1,15 @@
 package model;
 
-import java.awt.MouseInfo;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-
-import controller.gui_controller;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -28,23 +25,22 @@ import javafx.util.Duration;
 import model.Cell;
 
 
-public class GameFunctions extends java.io.Reader{
+public class GameFunctions{
 	
 	
 	
 	public Timeline timeline;
 	private Color[] colors = new Color[] {Color.WHITE, Color.BLACK };
-	private final int WIDTH = 100, HEIGHT = 100;
-	public byte [][] board = new byte[WIDTH][HEIGHT];
+	public staticBoard board = new staticBoard();
 	private Cell cell = new Cell();
 	
 	
 
 	public byte[][] cloneByteArray() {
-		byte[][] output = new byte[board.length][board[0].length];
-		for(int i = 0; i < board.length; i++) {
-			for(int j = 0; j < board[i].length; j++) {
-				output[i][j] = board[i][j];
+		byte[][] output = new byte[board.gameBoard.length][board.gameBoard[0].length];
+		for(int i = 0; i < board.gameBoard.length; i++) {
+			for(int j = 0; j < board.gameBoard[i].length; j++) {
+				output[i][j] = board.gameBoard[i][j];
 			}
 		}
 		return output; 
@@ -54,81 +50,27 @@ public class GameFunctions extends java.io.Reader{
 	@Override
 	public String toString() {
 		String returnString = "";
-		for(int i = 0; i < board.length; i++) {
-			for(int j = 0; j < board[i].length; j++) {
-				returnString = returnString + board[i][j];
+		for(int i = 0; i < board.gameBoard.length; i++) {
+			for(int j = 0; j < board.gameBoard[i].length; j++) {
+				returnString = returnString + board.gameBoard[i][j];
 			}
 		}
 		return returnString;
 	}
 	
 	public void setBoard(byte [][] gameBoard) {
-		this.board = gameBoard;
-	}
-	
-	
-	
-	public byte[][] nextGen() {
-		int numberOfRows = board.length;
-		int numberOfCols = board[0].length;
-		
-		byte[][] nextBoard = new byte[numberOfRows][];
-		
-		for(int row = 0; row < numberOfRows; row++) {
-			nextBoard[row] = new byte[numberOfCols];
-			for(int col = 0; col < numberOfCols; col++) {
-				int neighbourCount = getNeighbourCount(row, col, board);
-				
-				if(neighbourCount < 2){
-					nextBoard[row][col] = 0;
-				} else if (neighbourCount > 3) {
-					nextBoard[row][col] = 0;
-				} else if (neighbourCount == 3) {
-					nextBoard[row][col] = 1;
-				} else if (board[row][col] == 1){ 
-					if (neighbourCount == 2){ 
-						nextBoard[row][col] = 1;
-					}			
-				}
-			}
-		}
-		
-		return nextBoard;
-	}
-	
-	
-	private static int getNeighbourCount(int row, int col, byte[][] board) {
-		//Passe på at vi ikke går utenfor brettet
-        int minRow = Math.max(0, row - 1);
-        int maxRow = Math.min(board.length - 1, row + 1); 
-        int minCol = Math.max(0, col - 1);
-        int maxCol = Math.min(board[0].length - 1, col + 1); 	
-		
-        int neighbourCount = 0;
-		
-		for (int i = minRow; i <= maxRow; i++) {
-            for (int j = minCol; j <= maxCol; j++) {
-                if (i == row && j == col){
-                    continue;//Må ikke telle seg selv som en nabo til seg selv...
-                }
-                
-                if (board[i][j] == 1) {
-                	neighbourCount++;
-                }	
-            }
-		}
-        return neighbourCount;
+		this.board.gameBoard = gameBoard;
 	}
 	
 	
 	public void blackify (Slider slider_size, double x, double y) {
 		double rows = x / slider_size.getValue();
 		double cols = y / slider_size.getValue();
-		if (board[(int) cols][(int) rows] == 1) {
-			board[(int) cols][(int) rows] = 0;
+		if (board.gameBoard[(int) cols][(int) rows] == 1) {
+			board.gameBoard[(int) cols][(int) rows] = 0;
 			} 
-		else if (board[(int)cols][(int)rows] == 0) {			
-				board[(int) cols][(int) rows] = 1;		
+		else if (board.gameBoard[(int)cols][(int)rows] == 0) {			
+				board.gameBoard[(int) cols][(int) rows] = 1;		
 			}
 		}
 	
@@ -139,23 +81,20 @@ public class GameFunctions extends java.io.Reader{
 		return timeline;
 	}
 	
-	public void applyRule() {
-		board = nextGen();
-	}
 	
 	public void clearCanvas(Canvas gol_canvas, Slider slider_size) { //Cleans up the canvas
 		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
-		gc.clearRect(0, 0, board.length * slider_size.getMax(), board[0].length * slider_size.getMax());
+		gc.clearRect(0, 0, board.gameBoard.length * slider_size.getMax(), board.gameBoard[0].length * slider_size.getMax());
 	}
 	
 	
 	public void drawBoard(Canvas gol_canvas, double slider_size) { //Draws the board
 		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
-		for(int i = 0; i < board.length; i++) {
-			for(int j = 0; j < board[i].length; j++) {
+		for(int i = 0; i < board.gameBoard.length; i++) {
+			for(int j = 0; j < board.gameBoard[i].length; j++) {
 				cell.x = j*slider_size;
 				cell.y = i*slider_size;
-				byte boardValue = board[i][j];
+				byte boardValue = board.gameBoard[i][j];
 				cell.draw(gc, slider_size, boardValue, colors);
 			}
 		}
@@ -172,6 +111,10 @@ public class GameFunctions extends java.io.Reader{
 		for (double j = 0; j < gol_canvas.getHeight(); j+= slider_size){
 			gc.strokeLine(0, j, 1000, j);
 		}
+	}
+	
+	public void applyRule() {
+		board.gameBoard = board.nextGen();
 	}
 	
 	public void newTimeline(Canvas gol_canvas, double slider_speed, double slider_size) {
@@ -196,27 +139,16 @@ public class GameFunctions extends java.io.Reader{
 		drawBoard(gol_canvas, slider_size);
 	}
 
-
-
-	@Override
-	public int read(char[] cbuf, int off, int len) throws IOException {
-		return 0;
-	}
-
-	@Override
-	public void close() throws IOException {
-	}
-
 	
 	private byte[] getBoundingBox() {
 		byte[] boundingBox = new byte[4];
-		boundingBox[0] = (byte) board.length;
+		boundingBox[0] = (byte) board.gameBoard.length;
 		boundingBox[1] = 0;
-		boundingBox[2] = (byte) board[0].length;
+		boundingBox[2] = (byte) board.gameBoard[0].length;
 		boundingBox[3] = 0;
-		for(byte i = 0; i < board.length; i++) {
-			for(byte j = 0; j < board[i].length; j++) {
-				if (board[i][j] == 0) continue;
+		for(byte i = 0; i < board.gameBoard.length; i++) {
+			for(byte j = 0; j < board.gameBoard[i].length; j++) {
+				if (board.gameBoard[i][j] == 0) continue;
 				if (i < boundingBox[0]) {
 					boundingBox[0] = i;
 				}
@@ -236,13 +168,13 @@ public class GameFunctions extends java.io.Reader{
 	
 	
 	public String getBoundingBoxPattern() {
-		if (board.length == 0) return "";
+		if (board.gameBoard.length == 0) return "";
 		
 		byte[] boundingBox = getBoundingBox();
 		String str = "";
 		for(int i = boundingBox[0]; i <= boundingBox[1]; i++) {
 			for(int j = boundingBox[2]; j <= boundingBox[3]; j++) {
-				if (board[i][j] == 1) {
+				if (board.gameBoard[i][j] == 1) {
 					str = str + "1";
 				}
 				else {
@@ -252,48 +184,5 @@ public class GameFunctions extends java.io.Reader{
 		}
 		return str;
 	}
-	
-	public void readGameBoardFromDisk(File file) throws IOException, PatternFormatException {
-		try {
-			readGameBoard(new FileReader(file));
-		}
-		catch (IOException ex) {
-			Alert alertbox = new Alert(AlertType.ERROR);
-			alertbox.setTitle("Error");
-			alertbox.setHeaderText("File error!");
-			alertbox.setContentText(ex.getMessage());
-			alertbox.showAndWait();
-		}
-	}
-	
-	public void readGameBoardFromURL(String url) throws IOException, PatternFormatException {
-		try {
-			URL destination = new URL(url);
-			URLConnection conn = destination.openConnection();
-			readGameBoard(new InputStreamReader(conn.getInputStream()));
-		}
-		catch (IOException ex) {
-			Alert alertbox = new Alert(AlertType.ERROR);
-			alertbox.setTitle("Error");
-			alertbox.setHeaderText("URL error!");
-			alertbox.setContentText(ex.getMessage());
-			alertbox.showAndWait();
-		}
-	}
-	
-	public void readGameBoard(Reader r) throws IOException {
-		Scanner inFile = new Scanner(r);
-//		String testString = "";
-//		String pattern = "(\\d+.*?\\d+)";
-		inFile.nextLine();
-		while (inFile.hasNext()) {
-			String testString = inFile.nextLine();
-			int x = testString.charAt(0);
-			int y = testString.charAt(2);
-			x = Character.getNumericValue(x);
-			y = Character.getNumericValue(y);
-			board[x][y] = 1;
-		}
-		inFile.close();
-	}		
 }
+	

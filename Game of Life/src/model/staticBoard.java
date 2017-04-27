@@ -1,6 +1,8 @@
+
+
 package model;
 
-
+@Deprecated
 public class staticBoard implements Board {
 	
 

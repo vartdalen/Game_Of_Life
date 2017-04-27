@@ -20,7 +20,8 @@ public class GameFunctions{
 	
 	public Timeline timeline;
 	private Color[] colors = new Color[] {Color.WHITE, Color.BLACK };
-	public staticBoard board = new staticBoard();
+	public dynamicBoard board = new dynamicBoard();
+//	public staticBoard board = new staticBoard();
 	private Cell cell = new Cell();
 
 	

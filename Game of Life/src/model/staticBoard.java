@@ -12,67 +12,39 @@ public class staticBoard implements Board {
 	}
 	
 	
-//	public byte[][] nextGen() {
-//		int numberOfRows = gameBoard.length;
-//		int numberOfCols = gameBoard[0].length;
-//		
-//		byte[][] nextBoard = new byte[numberOfRows][];
-//		
-//		for(int row = 0; row < numberOfRows; row++) {
-//			nextBoard[row] = new byte[numberOfCols];
-//			for(int col = 0; col < numberOfCols; col++) {
-//				int neighbourCount = getNeighbourCount(row, col, gameBoard);
-//				
-//				if(neighbourCount < 2){
-//					nextBoard[row][col] = 0;
-//				} else if (neighbourCount > 3) {
-//					nextBoard[row][col] = 0;
-//				} else if (neighbourCount == 3) {
-//					nextBoard[row][col] = 1;
-//				} else if (gameBoard[row][col] == 1){ 
-//					if (neighbourCount == 2){ 
-//						nextBoard[row][col] = 1;
-//					}			
-//				}
-//			}
-//		}
-//		
-//		return nextBoard;
-//	}
 	
+	@Override
 	public void nextGen() {
-		int numberOfRows = gameBoard.length;
-		int numberOfCols = gameBoard[0].length;
-		
-		byte[][] nextBoard = new byte[numberOfRows][];
-		
-		for(int row = 0; row < numberOfRows; row++) {
-			nextBoard[row] = new byte[numberOfCols];
-			for(int col = 0; col < numberOfCols; col++) {
-				int neighbourCount = getNeighbourCount(row, col, gameBoard);
+		byte[][] nextGen = new byte[getLengthX()][getLengthY()];
+		for(int x = 0; x < getLengthX(); x++) {
+			for(int y = 0; y < getLengthY(); y++) {
+				int neighbourCount = getNeighbourCount(x, y);
 				
 				if(neighbourCount < 2){
-					setCellState(row, col, false);
+					nextGen[x][y] = 0;
 				} else if (neighbourCount > 3) {
-					setCellState(row, col, false);
+					nextGen[x][y] = 0;
 				} else if (neighbourCount == 3) {
-					setCellState(row, col, true);
-				} else if (getCellState(row, col) == 1){ 
+					nextGen[x][y] = 1;
+				} else if (getCellState(x, y) == 1){ 
 					if (neighbourCount == 2){ 
-						setCellState(row, col, true);
+						nextGen[x][y] = 1;
 					}			
 				}
 			}
 		}
+		gameBoard = nextGen;
 	}
 	
+
 	
-	private static int getNeighbourCount(int row, int col, byte[][] board) {
+	
+	private int getNeighbourCount(int row, int col) {
 		//Passe på at vi ikke går utenfor brettet
         int minRow = Math.max(0, row - 1);
-        int maxRow = Math.min(board.length - 1, row + 1); 
+        int maxRow = Math.min(getLengthX() - 1, row + 1); 
         int minCol = Math.max(0, col - 1);
-        int maxCol = Math.min(board[0].length - 1, col + 1); 	
+        int maxCol = Math.min(getLengthY() - 1, col + 1); 	
 		
         int neighbourCount = 0;
 		
@@ -82,7 +54,7 @@ public class staticBoard implements Board {
                     continue;//Må ikke telle seg selv som en nabo til seg selv...
                 }
                 
-                if (board[i][j] == 1) {
+                if (getCellState(i, j) == 1) {
                 	neighbourCount++;
                 }	
             }
@@ -90,9 +62,6 @@ public class staticBoard implements Board {
         return neighbourCount;
 	}
 	
-	public byte [][] getStaticBoard() {
-		return gameBoard;
-	}
 	
 	private byte[] getBoundingBox() {
 		byte[] boundingBox = new byte[4];

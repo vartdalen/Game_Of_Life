@@ -1,8 +1,10 @@
 
-
 package model;
 
 @Deprecated
+/**
+ *Todimensionalt byte array legger grunnen for et statisk board.
+ */
 public class staticBoard implements Board {
 	
 
@@ -16,6 +18,11 @@ public class staticBoard implements Board {
 	
 	
 	@Override
+	/**
+	 * Itererer gjennom arrayet med nostet forloop
+	 * Finner antall naboer med getNeighbourCount funksjonen
+	 * Bruker denne informasjonen til aa bestemme hvilke celler som skal leve i neste iterasjon.
+	 */
 	public void nextGen() {
 		byte[][] nextGen = new byte[getLengthX()][getLengthY()];
 		for(int x = 0; x < getLengthX(); x++) {
@@ -40,9 +47,14 @@ public class staticBoard implements Board {
 	
 
 	
-	
+	/**
+	 * Regner antall naboer for celle med gitt rad og kolonneverdi
+	 * 
+	 * @param row kolonneverdi for en gitt celle
+	 * @param col radverdi for en gitt celle
+	 * @return antall naboer for gitt celle
+	 */
 	private int getNeighbourCount(int row, int col) {
-		//Passe pÃ¥ at vi ikke gÃ¥r utenfor brettet
         int minRow = Math.max(0, row - 1);
         int maxRow = Math.min(getLengthX() - 1, row + 1); 
         int minCol = Math.max(0, col - 1);
@@ -64,7 +76,10 @@ public class staticBoard implements Board {
         return neighbourCount;
 	}
 	
-	
+	/**
+	 * Brukes i testing for å sjekke om brettet fungerer riktig. 
+	 * @return minste firkant nodvendig for å tegne boardet.
+	 */
 	private byte[] getBoundingBox() {
 		byte[] boundingBox = new byte[4];
 		boundingBox[0] = (byte) gameBoard.length;
@@ -91,7 +106,10 @@ public class staticBoard implements Board {
 		return boundingBox;
 	}
 	
-	
+	/**
+	 * Brukes i testing for å sjekke om brettet fungerer riktig.
+	 * @return hele griddet sine verdier printet i en string.
+	 */
 	public String getBoundingBoxPattern() {
 		if (gameBoard.length == 0) return "";
 		
@@ -146,17 +164,5 @@ public class staticBoard implements Board {
 			gameBoard[x][y] = 0;
 		}
 	}
-	
-	
-//	public byte[][] cloneByteArray() {
-//		byte[][] output = new byte[gameBoard.length][gameBoard[0].length];
-//		for(int i = 0; i < gameBoard.length; i++) {
-//			for(int j = 0; j < gameBoard[i].length; j++) {
-//				output[i][j] = gameBoard[i][j];
-//			}
-//		}
-//		return output; 
-//	}
-
 
 }

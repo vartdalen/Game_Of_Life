@@ -11,10 +11,17 @@ import java.util.Scanner;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-
+/**
+ *
+ */
 public class fileReader extends java.io.Reader {
 	
-	
+	/**
+	 * @param file
+	 * @param board
+	 * @throws IOException
+	 * @throws PatternFormatException
+	 */
 	public void readGameBoardFromDisk(File file, Board board) throws IOException, PatternFormatException {
 		try {
 			readGameBoard(new FileReader(file), board);
@@ -28,7 +35,12 @@ public class fileReader extends java.io.Reader {
 		}
 	}
 
-	
+	/**
+	 * @param url
+	 * @param board
+	 * @throws IOException
+	 * @throws PatternFormatException
+	 */
 	public void readGameBoardFromURL(String url, Board board) throws IOException, PatternFormatException {
 		try {
 			URL destination = new URL(url);
@@ -43,7 +55,12 @@ public class fileReader extends java.io.Reader {
 			alertbox.showAndWait();
 		}
 	}
-	
+	/**
+	 * 
+	 * @param r
+	 * @param board
+	 * @throws IOException
+	 */
 	public void readGameBoard(Reader r, Board board) throws IOException {
 		Scanner inFile = new Scanner(r);
 //		String testString = "";
@@ -61,6 +78,7 @@ public class fileReader extends java.io.Reader {
 	}
 	
 	@Override
+	
 	public int read(char[] cbuf, int off, int len) throws IOException {
 		return 0;
 	}

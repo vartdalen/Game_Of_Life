@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class dynamicBoard implements Board {
 	
@@ -21,39 +22,89 @@ public class dynamicBoard implements Board {
 	}
 	
 	
+//	@Override
+//	public void nextGen() {
+//		System.out.println(getLengthY());
+//		System.out.println(getLengthX());
+//		System.out.println(boardSize);
+//		
+//		ArrayList<ArrayList<Byte>> nextGen = new ArrayList<ArrayList<Byte>>(getLengthX());
+//		for (int i = 0; i < getLengthX(); i++) {	
+//			nextGen.add(new ArrayList<Byte>(getLengthY()+1));
+//			for(int j = 0; j < getLengthX(); j++) {
+//				nextGen.get(i).add((byte) 0);
+//			}
+//		}
+//		for (int x = 0; x < getLengthX(); x++) {
+//			for (int y = 0; y < getLengthY(); y++) {
+//				
+//				int neighbours = getNeighbourCount(x,y);
+//				
+//				if(neighbours < 2){
+//					nextGen.get(y).set(x, (byte) 0);
+//				} else if (neighbours > 3) {
+//					nextGen.get(y).set(x, (byte) 0);
+//				} else if (neighbours == 3) {
+//					nextGen.get(y).set(x, (byte) 1);
+//				} else if (getCellState(x, y) == 1){ 
+//					if (neighbours == 2){ 
+//						nextGen.get(y).set(x, (byte) 1);
+//					}			
+//				}
+//				if ((x == (getLengthX()-1) || y == (getLengthY()-1)) && getCellState(x, y) == 1) {
+//					
+//				}
+//				
+//			}
+//		}
+//		
+//		gameBoard = nextGen;
+//	}
+	
 	@Override
 	public void nextGen() {
 		System.out.println(getLengthY());
 		System.out.println(getLengthX());
 		
-		ArrayList<ArrayList<Byte>> nextGen = new ArrayList<ArrayList<Byte>>(boardSize);
+	
+		
+		ArrayList<ArrayList<Byte>> nextGen = new ArrayList<ArrayList<Byte>>(getLengthX());
 		for (int i = 0; i < getLengthX(); i++) {	
-			nextGen.add(new ArrayList<Byte>(boardSize));
+			nextGen.add(new ArrayList<Byte>(getLengthY()));
 			for(int j = 0; j < getLengthY(); j++) {
 				nextGen.get(i).add((byte) 0);
 			}
 		}
+		
+		System.out.println("Height: " + nextGen.size() + ", width: " + nextGen.size());
+		
 		for (int x = 0; x < getLengthX(); x++) {
 			for (int y = 0; y < getLengthY(); y++) {
 				
-//				if ((x == (getLengthX()-1) || y == (getLengthY()-1)) && getCellState(x, y) == 1) {
-//				boardSize++;
-//				for(int k = 0; k < getLengthX(); k++) {
-//					nextGen.add(new ArrayList<Byte>(boardSize));
-//					for (int l = 0; l < getLengthY(); l++) {
-//						nextGen.get(k).add((byte) 0);
-//					}
-//				}
-//			}
-				
+				if ((x == (getLengthX()-1) || y == (getLengthY()-1)) && getCellState(x, y) == 1) {
+					int amount = 1;
+					amount++;
+					nextGen = expand(amount, amount, nextGen);
+					System.out.println("Height: " + nextGen.size() + ", width: " + nextGen.size());
+				}
+			}
+		}
+		
+		
+		for (int x = 0; x < getLengthX(); x++) {
+			for (int y = 0; y < getLengthY(); y++) {
+
 				int neighbours = getNeighbourCount(x,y);
 				if(neighbours < 2){
 					nextGen.get(y).set(x, (byte) 0);
-				} else if (neighbours > 3) {
+				} 
+				else if (neighbours > 3) {
 					nextGen.get(y).set(x, (byte) 0);
-				} else if (neighbours == 3) {
+				} 
+				else if (neighbours == 3) {
 					nextGen.get(y).set(x, (byte) 1);
-				} else if (getCellState(x, y) == 1){ 
+				} 
+				else if (getCellState(x, y) == 1){ 
 					if (neighbours == 2){ 
 						nextGen.get(y).set(x, (byte) 1);
 					}			
@@ -62,6 +113,22 @@ public class dynamicBoard implements Board {
 		}
 		gameBoard = nextGen;
 	}
+	
+	private static ArrayList<ArrayList<Byte>> expand(int x, int y, ArrayList<ArrayList<Byte>> nextGen) {
+        int newHeight = nextGen.size() + y;
+        int newWidth = nextGen.get(0).size() + x;
+
+        ArrayList<ArrayList<Byte>> out = new ArrayList<>();
+        for (int i = 0; i < newHeight; i++) {
+            out.add(new ArrayList<Byte>());
+            for (int j = 0; j < newWidth; j++) {
+                out.get(i).add((byte) 0);
+            }
+        }
+
+        return out;
+    }
+
 	
 	public int getNeighbourCount(int row, int col) {
 		
@@ -84,6 +151,8 @@ public class dynamicBoard implements Board {
 		}
         return neighbourCount;
 	}
+	
+
 	
 
 	@Override

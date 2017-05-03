@@ -8,6 +8,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -29,6 +30,7 @@ public class gui_controller implements Initializable {
 	@FXML private Canvas gol_canvas;
 	@FXML private TextField urlField;
 	@FXML private Text generationCount;
+	@FXML private ColorPicker colorPicker;
 	private GameFunctions functions = new GameFunctions();
 	private fileReader reader = new fileReader();
 
@@ -133,6 +135,13 @@ public class gui_controller implements Initializable {
 	@FXML
 	public void exitEvent(ActionEvent event) {
 		System.exit(0);
+	}
+	
+	@FXML
+	public void changeColor(ActionEvent e) {
+		functions.colors[1] = colorPicker.getValue();
+		functions.drawBoard(gol_canvas, slider_size.getValue());
+		functions.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
 	@FXML

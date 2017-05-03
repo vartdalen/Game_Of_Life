@@ -147,16 +147,6 @@ public class staticBoard implements Board {
 		}
 	}
 	
-	
-//	public byte[][] cloneByteArray() {
-//		byte[][] output = new byte[gameBoard.length][gameBoard[0].length];
-//		for(int i = 0; i < gameBoard.length; i++) {
-//			for(int j = 0; j < gameBoard[i].length; j++) {
-//				output[i][j] = gameBoard[i][j];
-//			}
-//		}
-//		return output; 
-//	}
 
 
 }

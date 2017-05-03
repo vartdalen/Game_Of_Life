@@ -15,7 +15,7 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="controller.gui_controller">
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.gui_controller">
    <children>
    	
    	
@@ -27,7 +27,7 @@
             <URL value="@styling.css" />
          </stylesheets>
       <children>
-      		<Canvas fx:id="gol_canvas" height="600" onMouseClicked="#mouseClick" width="700" />
+      		<Canvas fx:id="gol_canvas" height="644" onMouseClicked="#mouseClick" width="700" />
       </children>
    	</HBox>
    	
@@ -41,12 +41,13 @@
       		<Button fx:id="btnStop" onAction="#stopBtnClicked" text="Stop" />
       		<Button fx:id="btnClear" onAction="#clearBtnClicked" text="Clear" />
       		<Label fx:id="label_size" text="Size" />
-      		<Slider fx:id="slider_size" max="100.0" min="7.0" onMouseDragged="#changeCellSize" value="50.0" />
+      		<Slider fx:id="slider_size" max="100.0" min="2.0" onMouseDragged="#changeCellSize" value="50.0" />
       		<Label fx:id="label_speed" text="Speed" />
       		<Slider fx:id="slider_speed" max="500.0" min="10.0" onMouseDragged="#changeAnimationSpeed" value="500.0" />
       		<Button fx:id="btnImport" onAction="#importBtnClicked" text="Import" />
       		<TextField fx:id="urlField" text="Insert url" />
       		<Button fx:id="btnAddUrl" onAction="#addURLClicked" text="Add URL" />
+            <ColorPicker fx:id="colorPicker" onAction="#changeColor" />
             <HBox alignment="BOTTOM_LEFT" prefHeight="138.0" prefWidth="200.0">
                <children>
                   <Label text="Generation: " />

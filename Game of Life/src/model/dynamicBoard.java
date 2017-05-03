@@ -1,11 +1,10 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class dynamicBoard implements Board {
 	
-	int boardSize = 20;
+	int boardSize = 180;
 	public ArrayList<ArrayList<Byte>> gameBoard = new ArrayList<ArrayList<Byte>>(boardSize);
 	
 	public dynamicBoard () {
@@ -43,7 +42,7 @@ public class dynamicBoard implements Board {
 		for (int x = 0; x < getLengthX(); x++) {
 			for (int y = 0; y < getLengthY(); y++) {
 				
-				if ((x == (getLengthX()-1) || y == (getLengthY()-1)) && getCellState(x, y) == 1 && getLengthX() < 120) {
+				if ((x == (getLengthX()-1) || y == (getLengthY()-1)) && getCellState(x, y) == 1 && getLengthX() < 170) {
 					int amount = 1;
 					amount++;
 					nextGen = expand(amount, amount, nextGen);

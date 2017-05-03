@@ -19,7 +19,9 @@ public class GameFunctions{
 	
 	
 	public Timeline timeline;
-	private Color[] colors = new Color[] {Color.WHITE, Color.BLACK };
+	private Color backgroundColor = Color.WHITE;
+	public Color cellColor = Color.BLACK;
+	public Color[] colors = new Color[] {backgroundColor, cellColor };
 	public dynamicBoard board = new dynamicBoard();
 //	public staticBoard board = new staticBoard();
 	private Cell cell = new Cell();
@@ -79,6 +81,7 @@ public class GameFunctions{
 	public void drawGrid(Canvas gol_canvas, double slider_size) {
 		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
 		gc.setFill(Color.BLACK);
+		gc.setLineWidth(0.5);
 		gc.setStroke(Color.BLACK);
 		for (double j = 0; j < gol_canvas.getHeight(); j+= slider_size){
 			gc.strokeLine(0, j, 1000, j);
@@ -109,6 +112,10 @@ public class GameFunctions{
 		timeline.getKeyFrames().add(frame);
 		
 		drawBoard(gol_canvas, slider_size);
+	}
+	
+	public void setBoard(byte[][] board) {
+		
 	}
 }
 	

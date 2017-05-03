@@ -46,19 +46,38 @@ public class fileReader extends java.io.Reader {
 	
 	public void readGameBoard(Reader r, Board board) throws IOException {
 		Scanner inFile = new Scanner(r);
-//		String testString = "";
-//		String pattern = "(\\d+.*?\\d+)";
 		inFile.nextLine();
+		int lowest = 0;
 		while (inFile.hasNext()) {
 			String testString = inFile.nextLine();
 			int x = testString.charAt(0);
 			int y = testString.charAt(2);
 			x = Character.getNumericValue(x);
 			y = Character.getNumericValue(y);
+			if (x < 0 || y < 0) {
+				if (x < y) {
+					lowest = x;
+				}
+				if (y < x) {
+					lowest = y;
+				}
+			}
+			x = x + lowest*-1;
+			y = y + lowest*-1;
 			board.setCellState(x, y, true);
 		}
-		inFile.close();
 	}
+//		while (inFile.hasNext()) {
+//			String testString = inFile.nextLine();
+//			int x = testString.charAt(0);
+//			int y = testString.charAt(2);
+//			x = Character.getNumericValue(x);
+//			y = Character.getNumericValue(y);
+//			
+//			board.setCellState(x, y, true);
+//		}
+//		inFile.close();
+//	}
 	
 	@Override
 	public int read(char[] cbuf, int off, int len) throws IOException {

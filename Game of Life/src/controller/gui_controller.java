@@ -8,6 +8,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -31,6 +32,7 @@ public class gui_controller implements Initializable {
 	@FXML private Canvas gol_canvas;
 	@FXML private TextField urlField;
 	@FXML private Text generationCount;
+	@FXML private ColorPicker colorPicker;
 	private GameFunctions functions = new GameFunctions();
 	private fileReader reader = new fileReader();
 
@@ -48,7 +50,7 @@ public class gui_controller implements Initializable {
 	 * Slider som regulerer tiden mellom hver nye generasjon.
 	 */
 	public void changeAnimationSpeed (MouseEvent e) {
-		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue(), generationCount);
 		functions.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
@@ -58,7 +60,7 @@ public class gui_controller implements Initializable {
 	 */
 	public void changeCellSize(MouseEvent e) {
 		functions.clearCanvas(gol_canvas, slider_size);
-		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue(), generationCount);
 		functions.drawBoard(gol_canvas, slider_size.getValue());
 		functions.drawGrid(gol_canvas, slider_size.getValue());
 	}
@@ -70,7 +72,7 @@ public class gui_controller implements Initializable {
 	*/
 	public void startBtnClicked(ActionEvent e) {
 		
-		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue(), generationCount);
 		functions.drawGrid(gol_canvas, slider_size.getValue());
 		functions.timeline.play();
 	}
@@ -100,6 +102,7 @@ public class gui_controller implements Initializable {
 		functions.clearCanvas(gol_canvas, slider_size);
 		functions.drawGrid(gol_canvas, slider_size.getValue());
 		functions = new GameFunctions();
+	
 	}
 	
 	@FXML
@@ -148,7 +151,6 @@ public class gui_controller implements Initializable {
 		functions.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
-	
 	@FXML
 	/**
 	* Knappetrykk innenfor gridden forandrer verdien i cellen man trykker paa,
@@ -161,4 +163,12 @@ public class gui_controller implements Initializable {
 		functions.drawBoard(gol_canvas, slider_size.getValue());
 		functions.drawGrid(gol_canvas, slider_size.getValue());
 	}
+	
+	@FXML
+	public void changeColor(ActionEvent e) {
+		functions.colors[1] = colorPicker.getValue();
+		functions.drawBoard(gol_canvas, slider_size.getValue());
+		functions.drawGrid(gol_canvas, slider_size.getValue());
+	}
+	
 }

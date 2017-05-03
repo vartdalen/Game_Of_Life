@@ -10,17 +10,20 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import model.Cell;
-
 
 public class GameFunctions{
 	
 	public Timeline timeline;
-	private Color[] colors = new Color[] {Color.WHITE, Color.BLACK };
+	private Color backgroundColor = Color.WHITE;
+	public Color cellColor = Color.BLACK;
+	public Color[] colors = new Color[] {backgroundColor, cellColor };
 	public dynamicBoard board = new dynamicBoard();
 //	public staticBoard board = new staticBoard();
 	private Cell cell = new Cell();
+	public int generation = 0;
 
 	
 	
@@ -36,6 +39,17 @@ public class GameFunctions{
 			}
 		}
 		return returnString;
+	}
+	
+	/**
+	 * Øker generasjonsvariablen som holder kontroll på antall generasjoner.
+	 * @return antall generasjoner omgjort til string.
+	 */
+	public String stringCount() {
+		
+		generation++;
+		return Integer.toString(generation);
+		
 	}
 	
 	/**
@@ -112,6 +126,7 @@ public class GameFunctions{
 		}
 	}
 	
+	
 	/**
 	 * Starter en timeline som setter betingelsene til hvor ofte boardet kan forandre seg.
 	 * 
@@ -119,10 +134,11 @@ public class GameFunctions{
 	 * @param slider_speed henter variabel direkte fra gui som bestemmer oppdateringsfrekvensen til boardet.
 	 * @param slider_size kreves i drawBoard og drawGrid.
 	 */
-	public void newTimeline(Canvas gol_canvas, double slider_speed, double slider_size) {
+	public void newTimeline(Canvas gol_canvas, double slider_speed, double slider_size, Text generationCount) {
 		/*
 		 * Starte generering/forandring av celler
 		 * */
+		
 		if (timeline != null) {
 			timeline.stop();
 		}
@@ -135,10 +151,12 @@ public class GameFunctions{
 				board.nextGen();
 				drawBoard(gol_canvas, slider_size);
 				drawGrid(gol_canvas, slider_size);
+				generationCount.setText(stringCount());
 			}});
 		timeline.getKeyFrames().add(frame);
 		
 		drawBoard(gol_canvas, slider_size);
 	}
+	
 }
 	

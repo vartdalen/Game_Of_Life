@@ -27,7 +27,7 @@
             <URL value="@styling.css" />
          </stylesheets>
       <children>
-      		<Canvas fx:id="gol_canvas" height="600" onMouseClicked="#mouseClick" width="700" />
+      		<Canvas fx:id="gol_canvas" height="644" onMouseClicked="#mouseClick" width="700" />
       </children>
    	</HBox>
    	
@@ -47,10 +47,11 @@
       		<Button fx:id="btnImport" onAction="#importBtnClicked" text="Import" />
       		<TextField fx:id="urlField" text="Insert url" />
       		<Button fx:id="btnAddUrl" onAction="#addURLClicked" text="Add URL" />
+      		<ColorPicker fx:id="colorPicker" onAction="#changeColor" />
             <HBox alignment="BOTTOM_LEFT" prefHeight="138.0" prefWidth="200.0">
                <children>
                   <Label text="Generation: " />
-                  <Text fx:id="generationCount" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Text fx:id="generationCount" strokeType="OUTSIDE" strokeWidth="0.0" text="0"/>
                </children>
             </HBox>
       </children>

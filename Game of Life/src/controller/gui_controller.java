@@ -17,7 +17,9 @@ import javafx.stage.FileChooser;
 import model.GameFunctions;
 import model.PatternFormatException;
 import model.fileReader;
-
+/**
+ * Herifra kalles funksjonene som styrer boardet.
+ */
 public class gui_controller implements Initializable {
 
 	
@@ -34,65 +36,81 @@ public class gui_controller implements Initializable {
 	private GameFunctions functions = new GameFunctions();
 	private fileReader reader = new fileReader();
 
-	
+	/**
+	 * Kjorer funksjoner som gjor klar boardet med startverdier.
+	 */
 	public void initialize(java.net.URL location,
-            java.util.ResourceBundle resources) {	
+        java.util.ResourceBundle resources) {	
 		functions.drawBoard(gol_canvas, slider_size.getValue());
 		functions.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
 	@FXML
+	/**
+	 * Slider som regulerer tiden mellom hver nye generasjon.
+	 */
 	public void changeAnimationSpeed (MouseEvent e) {
-		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue(), generationCount);
 		functions.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
 	@FXML
+	/**
+	 * Slider som regulerer storrelsen paa cellene.
+	 */
 	public void changeCellSize(MouseEvent e) {
 		functions.clearCanvas(gol_canvas, slider_size);
-		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue(), generationCount);
 		functions.drawBoard(gol_canvas, slider_size.getValue());
 		functions.drawGrid(gol_canvas, slider_size.getValue());
 	}
 	
+	
 	@FXML
+	/**
+	* Starte generering/forandring av celler
+	*/
 	public void startBtnClicked(ActionEvent e) {
-		/*
-		 * Starte generering/forandring av celler
-		 * */
-		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue());
+		
+		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue(), generationCount);
 		functions.drawGrid(gol_canvas, slider_size.getValue());
 		functions.timeline.play();
 	}
 	
+	
 	@FXML
+	/**
+	* Stoppe generering/forandring av celler
+	*/
 	public void stopBtnClicked(ActionEvent e) {
-		/*
-		 * Stoppe generering/forandring av celler
-		 * */
+		
 		if (functions.timeline != null) {
 			functions.timeline.stop();
 		}
 	}
 	
+	
 	@FXML
+	/**
+	* fjerne eksisterende celler -> blanke ark.
+	*/
 	public void clearBtnClicked(ActionEvent e) {
-		/*
-		 * fjerne eksisterende celler -> blanke ark.
-		 * */
+		
 		if(functions.timeline != null) {
 			functions.timeline.stop();
 		}
 		functions.clearCanvas(gol_canvas, slider_size);
 		functions.drawGrid(gol_canvas, slider_size.getValue());
 		functions = new GameFunctions();
+	
 	}
 	
 	@FXML
+	/**
+	* Importerer forhaandsdefinert board state fra fil. Bruker formatet .lif.
+	*/
 	public void importBtnClicked(ActionEvent e) {
-		/*
-		 * Kunne importere andre m�nstre
-		 * */
+		
 		FileChooser fileChooser = new FileChooser();
 		FileChooser.ExtensionFilter Filter = new FileChooser.ExtensionFilter("TXT files (*.txt), LIF files (*.lif)", "*.txt, *.lif");
 		fileChooser.getExtensionFilters().add(Filter);
@@ -114,10 +132,11 @@ public class gui_controller implements Initializable {
 	}
 	
 	@FXML
+	/**
+	* Importerer forhaandsdefinert board state fra url. Bruker formatet .lif.
+	*/
 	public void addURLClicked(ActionEvent e) {
-		/*
-		 * Kunne importere mønstre fra URL
-		 * */
+		
 		try {
 			reader.readGameBoardFromURL(urlField.getText(), functions.board);
 		}
@@ -133,6 +152,7 @@ public class gui_controller implements Initializable {
 	}
 	
 	@FXML
+<<<<<<< HEAD
 	public void exitEvent(ActionEvent event) {
 		System.exit(0);
 	}
@@ -145,6 +165,12 @@ public class gui_controller implements Initializable {
 	}
 	
 	@FXML
+=======
+	/**
+	* Knappetrykk innenfor gridden forandrer verdien i cellen man trykker paa,
+	* og boardet blir oppdatert.
+	*/
+>>>>>>> b0b6fd1af3b01634e1d5fe1b2bd14c895645a1c0
 	public void mouseClick(MouseEvent e) {
 		double x = e.getX();
 		double y = e.getY();
@@ -152,4 +178,12 @@ public class gui_controller implements Initializable {
 		functions.drawBoard(gol_canvas, slider_size.getValue());
 		functions.drawGrid(gol_canvas, slider_size.getValue());
 	}
+	
+	@FXML
+	public void changeColor(ActionEvent e) {
+		functions.colors[1] = colorPicker.getValue();
+		functions.drawBoard(gol_canvas, slider_size.getValue());
+		functions.drawGrid(gol_canvas, slider_size.getValue());
+	}
+	
 }

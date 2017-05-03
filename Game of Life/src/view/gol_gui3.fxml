@@ -47,11 +47,15 @@
       		<Button fx:id="btnImport" onAction="#importBtnClicked" text="Import" />
       		<TextField fx:id="urlField" text="Insert url" />
       		<Button fx:id="btnAddUrl" onAction="#addURLClicked" text="Add URL" />
+<<<<<<< HEAD
             <ColorPicker fx:id="colorPicker" onAction="#changeColor" />
+=======
+      		<ColorPicker fx:id="colorPicker" onAction="#changeColor" />
+>>>>>>> b0b6fd1af3b01634e1d5fe1b2bd14c895645a1c0
             <HBox alignment="BOTTOM_LEFT" prefHeight="138.0" prefWidth="200.0">
                <children>
                   <Label text="Generation: " />
-                  <Text fx:id="generationCount" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Text fx:id="generationCount" strokeType="OUTSIDE" strokeWidth="0.0" text="0"/>
                </children>
             </HBox>
       </children>

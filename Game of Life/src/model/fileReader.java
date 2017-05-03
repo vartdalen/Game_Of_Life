@@ -11,10 +11,18 @@ import java.util.Scanner;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-
+/**
+ * Denne klassen inneholder programmene som står for lesing av inisiellverdier til boardet.
+ */
 public class fileReader extends java.io.Reader {
 	
-	
+	/**
+	 * Funksjonen tillater innlasting av GameOfLife-monstre av .lif format, i fra disk.
+	 * @param file - Brettfil på harddisk i .lif format.
+	 * @param board - Brettet hvor filen blir lastet inn.
+	 * @throws IOException - Kaster denne dersom det oppstår feil rundt fillesing eller filinnlasting.
+	 * @throws PatternFormatException - Kaster denne dersom formatet er feil. 
+	 */
 	public void readGameBoardFromDisk(File file, Board board) throws IOException, PatternFormatException {
 		try {
 			readGameBoard(new FileReader(file), board);
@@ -28,7 +36,13 @@ public class fileReader extends java.io.Reader {
 		}
 	}
 
-	
+	/**
+	 * Funksjonen tillater innlasting av GameOfLife-monstre av .lif format, i fra URL/internett.
+	 * @param url - URL til hvor brett-filen ligger på internett.
+	 * @param board - Brettet hvor filen blir lastet inn.
+	 * @throws IOException - Kaster denne dersom det oppstår feil rundt fillesing eller filinnlasting.
+	 * @throws PatternFormatException - Kaster denne dersom formatet er feil.
+	 */
 	public void readGameBoardFromURL(String url, Board board) throws IOException, PatternFormatException {
 		try {
 			URL destination = new URL(url);
@@ -43,7 +57,9 @@ public class fileReader extends java.io.Reader {
 			alertbox.showAndWait();
 		}
 	}
-	
+	/**
+	 * Brukes i de to andre read funksjonene til å lese av gridden.
+	 */
 	public void readGameBoard(Reader r, Board board) throws IOException {
 		Scanner inFile = new Scanner(r);
 		inFile.nextLine();
@@ -80,6 +96,7 @@ public class fileReader extends java.io.Reader {
 //	}
 	
 	@Override
+	
 	public int read(char[] cbuf, int off, int len) throws IOException {
 		return 0;
 	}
@@ -87,4 +104,5 @@ public class fileReader extends java.io.Reader {
 	@Override
 	public void close() throws IOException {
 	}
+	
 }

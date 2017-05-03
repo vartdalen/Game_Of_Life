@@ -1,16 +1,37 @@
 package model;
 
 import java.util.ArrayList;
+<<<<<<< HEAD
 
 public class dynamicBoard implements Board {
 	
 	int boardSize = 180;
+=======
+import java.util.List;
+/**
+ * Vårt dynamiske board kan visualiseres som en ArrayList
+ * som inneholder dynamisk antall ArrayLister (y-indekser),
+ * som igjen inneholder dynamisk antall byteverdier (x-indekser).
+ */
+public class dynamicBoard implements Board {
+	/**
+	 * int boardSize: Inisiell maks storrelse paa boardet.
+	 */
+	int boardSize = 20;
+	/**
+	 * Deklarerer tomt ArrayList board som er klar til aa motta et dynamisk grid.
+	 */
+>>>>>>> b0b6fd1af3b01634e1d5fe1b2bd14c895645a1c0
 	public ArrayList<ArrayList<Byte>> gameBoard = new ArrayList<ArrayList<Byte>>(boardSize);
-	
+	/**
+	 * Konstruktor.
+	 */
 	public dynamicBoard () {
 		initBoard();
 	}
-	
+	/**
+	 * Lager todimensionalt ArrayList grid og putter inn i gameBoard.
+	 */
 	public void initBoard() {
 		for (int i = 0; i < boardSize; i++) {	
 				gameBoard.add(new ArrayList<Byte>(boardSize));
@@ -19,16 +40,21 @@ public class dynamicBoard implements Board {
 				}
 		}
 	}
+<<<<<<< HEAD
 	
 	
 	
+=======
+
+>>>>>>> b0b6fd1af3b01634e1d5fe1b2bd14c895645a1c0
 	@Override
+	/**
+	 * Itererer gjennom arrayet med nostet forloop
+	 * Hvis brettet prover å utvide seg utenfor begrensningen, utvider det seg.
+	 * Finner antall naboer med getNeighbourCount funksjonen
+	 * Bruker denne informasjonen til aa bestemme hvilke celler som skal leve i neste iterasjon.
+	 */
 	public void nextGen() {
-		System.out.println(getLengthY());
-		System.out.println(getLengthX());
-		
-	
-		
 		ArrayList<ArrayList<Byte>> nextGen = new ArrayList<ArrayList<Byte>>(getLengthX());
 		for (int i = 0; i < getLengthX(); i++) {	
 			nextGen.add(new ArrayList<Byte>(getLengthY()));
@@ -37,8 +63,6 @@ public class dynamicBoard implements Board {
 			}
 		}
 		
-		System.out.println("Height: " + nextGen.size() + ", width: " + nextGen.size());
-		
 		for (int x = 0; x < getLengthX(); x++) {
 			for (int y = 0; y < getLengthY(); y++) {
 				
@@ -46,7 +70,6 @@ public class dynamicBoard implements Board {
 					int amount = 1;
 					amount++;
 					nextGen = expand(amount, amount, nextGen);
-					System.out.println("Height: " + nextGen.size() + ", width: " + nextGen.size());
 				}
 			}
 		}
@@ -90,7 +113,13 @@ public class dynamicBoard implements Board {
         return out;
     }
 
-	
+	/**
+	 * Regner antall naboer for celle med gitt rad og kolonneverdi
+	 * 
+	 * @param row kolonneverdi for en gitt celle
+	 * @param col radverdi for en gitt celle
+	 * @return antall naboer for gitt celle
+	 */
 	public int getNeighbourCount(int row, int col) {
 		
         int minRow = Math.max(0, row - 1);

@@ -12,15 +12,15 @@ import java.util.Scanner;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 /**
- * Denne klassen inneholder programmene som står for lesing av inisiellverdier til boardet.
+ * Denne klassen inneholder programmene som stÃ¥r for lesing av inisiellverdier til boardet.
  */
 public class fileReader extends java.io.Reader {
 	
 	/**
 	 * Funksjonen tillater innlasting av GameOfLife-monstre av .lif format, i fra disk.
-	 * @param file - Brettfil på harddisk i .lif format.
+	 * @param file - Brettfil pÃ¥ harddisk i .lif format.
 	 * @param board - Brettet hvor filen blir lastet inn.
-	 * @throws IOException - Kaster denne dersom det oppstår feil rundt fillesing eller filinnlasting.
+	 * @throws IOException - Kaster denne dersom det oppstÃ¥r feil rundt fillesing eller filinnlasting.
 	 * @throws PatternFormatException - Kaster denne dersom formatet er feil. 
 	 */
 	public void readGameBoardFromDisk(File file, Board board) throws IOException, PatternFormatException {
@@ -38,9 +38,9 @@ public class fileReader extends java.io.Reader {
 
 	/**
 	 * Funksjonen tillater innlasting av GameOfLife-monstre av .lif format, i fra URL/internett.
-	 * @param url - URL til hvor brett-filen ligger på internett.
+	 * @param url - URL til hvor brett-filen ligger pÃ¥ internett.
 	 * @param board - Brettet hvor filen blir lastet inn.
-	 * @throws IOException - Kaster denne dersom det oppstår feil rundt fillesing eller filinnlasting.
+	 * @throws IOException - Kaster denne dersom det oppstÃ¥r feil rundt fillesing eller filinnlasting.
 	 * @throws PatternFormatException - Kaster denne dersom formatet er feil.
 	 */
 	public void readGameBoardFromURL(String url, Board board) throws IOException, PatternFormatException {
@@ -58,22 +58,39 @@ public class fileReader extends java.io.Reader {
 		}
 	}
 	/**
-	 * Brukes i de to andre read funksjonene til å lese av gridden.
+	 * Brukes i de to andre read funksjonene til Ã¥ lese av gridden.
 	 */
 	public void readGameBoard(Reader r, Board board) throws IOException {
 		Scanner inFile = new Scanner(r);
-//		String testString = "";
-//		String pattern = "(\\d+.*?\\d+)";
 		inFile.nextLine();
+		int lowest = 0;
 		while (inFile.hasNext()) {
 			String testString = inFile.nextLine();
 			int x = testString.charAt(0);
 			int y = testString.charAt(2);
 			x = Character.getNumericValue(x);
 			y = Character.getNumericValue(y);
+			if (x < 0 || y < 0) {
+				if (x < y) {
+					lowest = x;
+				}
+				if (y < x) {
+					lowest = y;
+				}
+			}
+			System.out.println(lowest);
+		}
+		System.out.println(lowest);
+		while (inFile.hasNext()) {
+			String testString = inFile.nextLine();
+			int x = testString.charAt(0);
+			int y = testString.charAt(2);
+			x = Character.getNumericValue(x);
+			y = Character.getNumericValue(y);
+			x = lowest*-1;
+			y = lowest*-1;
 			board.setCellState(x, y, true);
 		}
-		inFile.close();
 	}
 	
 	@Override

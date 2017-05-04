@@ -42,7 +42,7 @@ public class GameFunctions{
 	}
 	
 	/**
-	 * Øker generasjonsvariablen som holder kontroll på antall generasjoner.
+	 * Ã¥ker generasjonsvariablen som holder kontroll p antall generasjoner.
 	 * @return antall generasjoner omgjort til string.
 	 */
 	public String stringCount() {
@@ -117,6 +117,7 @@ public class GameFunctions{
 	public void drawGrid(Canvas gol_canvas, double slider_size) {
 		GraphicsContext gc = gol_canvas.getGraphicsContext2D();
 		gc.setFill(Color.BLACK);
+		gc.setLineWidth(0.5);
 		gc.setStroke(Color.BLACK);
 		for (double j = 0; j < gol_canvas.getHeight(); j+= slider_size){
 			gc.strokeLine(0, j, 1000, j);

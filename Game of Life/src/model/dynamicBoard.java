@@ -1,9 +1,8 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 /**
- * Vårt dynamiske board kan visualiseres som en ArrayList
+ * Vï¿½rt dynamiske board kan visualiseres som en ArrayList
  * som inneholder dynamisk antall ArrayLister (y-indekser),
  * som igjen inneholder dynamisk antall byteverdier (x-indekser).
  */
@@ -11,7 +10,7 @@ public class dynamicBoard implements Board {
 	/**
 	 * int boardSize: Inisiell maks storrelse paa boardet.
 	 */
-	int boardSize = 20;
+	int boardSize = 150;
 	/**
 	 * Deklarerer tomt ArrayList board som er klar til aa motta et dynamisk grid.
 	 */
@@ -37,7 +36,7 @@ public class dynamicBoard implements Board {
 	@Override
 	/**
 	 * Itererer gjennom arrayet med nostet forloop
-	 * Hvis brettet prover å utvide seg utenfor begrensningen, utvider det seg.
+	 * Hvis brettet prover ï¿½ utvide seg utenfor begrensningen, utvider det seg.
 	 * Finner antall naboer med getNeighbourCount funksjonen
 	 * Bruker denne informasjonen til aa bestemme hvilke celler som skal leve i neste iterasjon.
 	 */
@@ -53,7 +52,7 @@ public class dynamicBoard implements Board {
 		for (int x = 0; x < getLengthX(); x++) {
 			for (int y = 0; y < getLengthY(); y++) {
 				
-				if ((x == (getLengthX()-1) || y == (getLengthY()-1)) && getCellState(x, y) == 1) {
+				if ((x == (getLengthX()-1) || y == (getLengthY()-1)) && getCellState(x, y) == 1 && getLengthX() < 170) {
 					int amount = 1;
 					amount++;
 					nextGen = expand(amount, amount, nextGen);

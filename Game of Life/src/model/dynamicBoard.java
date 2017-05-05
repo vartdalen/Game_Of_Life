@@ -10,7 +10,7 @@ public class dynamicBoard implements Board {
 	/**
 	 * int boardSize: Inisiell maks storrelse paa boardet.
 	 */
-	int boardSize = 150;
+	public int boardSize;
 	/**
 	 * Deklarerer tomt ArrayList board som er klar til aa motta et dynamisk grid.
 	 */
@@ -18,7 +18,8 @@ public class dynamicBoard implements Board {
 	/**
 	 * Konstruktor.
 	 */
-	public dynamicBoard () {
+	public dynamicBoard (int size) {
+		boardSize = size;
 		initBoard();
 	}
 	/**
@@ -84,6 +85,13 @@ public class dynamicBoard implements Board {
 		gameBoard = nextGen;
 	}
 	
+	/**
+	 * Forstorrer boardet.
+	 * @param x lengden på horisontal 
+	 * @param y lengden på vertikal 
+	 * @param nextGen neste generasjon
+	 * @return neste generasjon med forstørret brett
+	 */
 	private static ArrayList<ArrayList<Byte>> expand(int x, int y, ArrayList<ArrayList<Byte>> nextGen) {
         int newHeight = nextGen.size() + y;
         int newWidth = nextGen.get(0).size() + x;
@@ -98,6 +106,7 @@ public class dynamicBoard implements Board {
 
         return out;
     }
+	
 
 	/**
 	 * Regner antall naboer for celle med gitt rad og kolonneverdi
@@ -127,7 +136,30 @@ public class dynamicBoard implements Board {
 		}
         return neighbourCount;
 	}
+
+	public void nextGenerationPrintPerformance() {
+		long start = System.currentTimeMillis();
+		nextGen();
+		long elapsed = System.currentTimeMillis() - start; 
+		System.out.println("Counting time (ms): " + elapsed);
+	}
 	
+	
+	@Override
+	/**
+	 * Gjor om alle verdiene i boardet til en string.
+	 * @return stringverdi av verdien i en celle.
+	 */
+	public String toString() {
+		String returnString = "";
+		for(int i = 0; i < getLengthX(); i++) {
+			for(int j = 0; j < getLengthY(); j++) {
+				returnString = returnString + getCellState(i, j);
+			}
+		}
+		return returnString;
+	}
+
 
 	
 

@@ -20,26 +20,13 @@ public class GameFunctions{
 	private Color backgroundColor = Color.WHITE;
 	public Color cellColor = Color.BLACK;
 	public Color[] colors = new Color[] {backgroundColor, cellColor };
-	public dynamicBoard board = new dynamicBoard();
+	public dynamicBoard board = new dynamicBoard(200);
 //	public staticBoard board = new staticBoard();
 	private Cell cell = new Cell();
 	public int generation = 0;
 
 	
 	
-	@Override
-	/**
-	 * @return stringverdi av verdien i en celle.
-	 */
-	public String toString() {
-		String returnString = "";
-		for(int i = 0; i < board.getLengthX(); i++) {
-			for(int j = 0; j < board.getLengthY(); j++) {
-				returnString = returnString + board.getCellState(i, j);
-			}
-		}
-		return returnString;
-	}
 	
 	/**
 	 * åker generasjonsvariablen som holder kontroll p antall generasjoner.

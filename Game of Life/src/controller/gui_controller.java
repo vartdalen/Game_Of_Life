@@ -15,7 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import model.GameFunctions;
-import model.PatternFormatException;
 import model.fileReader;
 /**
  * Herifra kalles funksjonene som styrer boardet.
@@ -112,18 +111,26 @@ public class gui_controller implements Initializable {
 	public void importBtnClicked(ActionEvent e) {
 		
 		FileChooser fileChooser = new FileChooser();
-		FileChooser.ExtensionFilter Filter = new FileChooser.ExtensionFilter("TXT files (*.txt), LIF files (*.lif)", "*.txt, *.lif");
-		fileChooser.getExtensionFilters().add(Filter);
+		FileChooser.ExtensionFilter Filter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+		FileChooser.ExtensionFilter Filter2 = new FileChooser.ExtensionFilter("LIF files (*.lif)", "*.lif");
+		fileChooser.getExtensionFilters().addAll(Filter, Filter2);
 		File file = fileChooser.showOpenDialog(btnImport.getScene().getWindow());
 		if (file != null) {
 			try {
 				reader.readGameBoardFromDisk(file, functions.board);
 			}
-			catch (IOException | PatternFormatException ioe) {
+			catch (IOException ioe) {
 				Alert alertbox = new Alert(AlertType.ERROR);
 				alertbox.setTitle("Error");
 				alertbox.setHeaderText("File error!");
 				alertbox.setContentText(ioe.getMessage());
+				alertbox.showAndWait();
+			}
+			catch(IndexOutOfBoundsException ex) {
+				Alert alertbox = new Alert(AlertType.ERROR);
+				alertbox.setTitle("Error");
+				alertbox.setHeaderText("File error!");
+				alertbox.setContentText("Du lastet inn et brett som er større en det nåværende spillbrettet!");
 				alertbox.showAndWait();
 			}
 		}
@@ -140,11 +147,18 @@ public class gui_controller implements Initializable {
 		try {
 			reader.readGameBoardFromURL(urlField.getText(), functions.board);
 		}
-		catch (IOException | PatternFormatException ioe) {
+		catch (IOException ioe) {
 			Alert alertbox = new Alert(AlertType.ERROR);
 			alertbox.setTitle("Error");
 			alertbox.setHeaderText("URL error!");
 			alertbox.setContentText(ioe.getMessage());
+			alertbox.showAndWait();
+		}
+		catch(IndexOutOfBoundsException ex) {
+			Alert alertbox = new Alert(AlertType.ERROR);
+			alertbox.setTitle("Error");
+			alertbox.setHeaderText("File error!");
+			alertbox.setContentText("Du lastet inn et brett som er større en det nåværende spillbrettet!");
 			alertbox.showAndWait();
 		}
 		functions.drawBoard(gol_canvas, slider_size.getValue());
@@ -159,9 +173,18 @@ public class gui_controller implements Initializable {
 	public void mouseClick(MouseEvent e) {
 		double x = e.getX();
 		double y = e.getY();
-		functions.blackify(slider_size, x, y);
-		functions.drawBoard(gol_canvas, slider_size.getValue());
-		functions.drawGrid(gol_canvas, slider_size.getValue());
+		try {
+			functions.blackify(slider_size, x, y);
+			functions.drawBoard(gol_canvas, slider_size.getValue());
+			functions.drawGrid(gol_canvas, slider_size.getValue());
+		}
+		catch (IndexOutOfBoundsException error) {
+			Alert alertbox = new Alert(AlertType.ERROR);
+			alertbox.setTitle("Error");
+			alertbox.setHeaderText("Error");
+			alertbox.setContentText("Du trykket utenfor det nåværende brettet!");
+			alertbox.showAndWait();
+		}
 	}
 	
 	@FXML

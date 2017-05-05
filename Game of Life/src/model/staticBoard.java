@@ -1,7 +1,7 @@
 
 package model;
 
-@Deprecated
+//@Deprecated
 /**
  *Todimensionalt byte array legger grunnen for et statisk board.
  */
@@ -77,8 +77,8 @@ public class staticBoard implements Board {
 	}
 	
 	/**
-	 * Brukes i testing for å sjekke om brettet fungerer riktig. 
-	 * @return minste firkant nodvendig for å tegne boardet.
+	 * Brukes i testing for ï¿½ sjekke om brettet fungerer riktig. 
+	 * @return minste firkant nodvendig for ï¿½ tegne boardet.
 	 */
 	private byte[] getBoundingBox() {
 		byte[] boundingBox = new byte[4];
@@ -107,7 +107,7 @@ public class staticBoard implements Board {
 	}
 	
 	/**
-	 * Brukes i testing for å sjekke om brettet fungerer riktig.
+	 * Brukes i testing for ï¿½ sjekke om brettet fungerer riktig.
 	 * @return hele griddet sine verdier printet i en string.
 	 */
 	public String getBoundingBoxPattern() {
@@ -126,6 +126,21 @@ public class staticBoard implements Board {
 			}
 		}
 		return str;
+	}
+	
+	@Override
+	/**
+	 * Gjor om alle verdiene i brettet til en lang string.
+	 * @return stringverdi av verdien i en celle.
+	 */
+	public String toString() {
+		String returnString = "";
+		for(int i = 0; i < getLengthX(); i++) {
+			for(int j = 0; j < getLengthY(); j++) {
+				returnString = returnString + getCellState(i, j);
+			}
+		}
+		return returnString;
 	}
 	
 	

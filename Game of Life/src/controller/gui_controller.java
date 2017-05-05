@@ -1,6 +1,8 @@
 package controller;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,7 +16,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import model.Board;
 import model.GameFunctions;
+import model.dynamicBoard;
+import model.staticBoard;
 import model.fileReader;
 /**
  * Herifra kalles funksjonene som styrer boardet.
@@ -26,12 +31,14 @@ public class gui_controller implements Initializable {
 	@FXML private Button btnStop;
 	@FXML private Button btnClear;
 	@FXML private Button btnImport;
-	@FXML private Slider slider_size;
+	@FXML private Slider zoom;
 	@FXML private Slider slider_speed;
 	@FXML private Canvas gol_canvas;
 	@FXML private TextField urlField;
 	@FXML private Text generationCount;
 	@FXML private ColorPicker colorPicker;
+	@FXML private TextField boardSizeField;
+	@FXML private Button confirmBoardSize;
 	private GameFunctions functions = new GameFunctions();
 	private fileReader reader = new fileReader();
 
@@ -40,8 +47,8 @@ public class gui_controller implements Initializable {
 	 */
 	public void initialize(java.net.URL location,
         java.util.ResourceBundle resources) {	
-		functions.drawBoard(gol_canvas, slider_size.getValue());
-		functions.drawGrid(gol_canvas, slider_size.getValue());
+		functions.drawBoard(gol_canvas, zoom.getValue());
+		functions.drawGrid(gol_canvas, zoom.getValue());
 	}
 	
 	@FXML
@@ -49,8 +56,8 @@ public class gui_controller implements Initializable {
 	 * Slider som regulerer tiden mellom hver nye generasjon.
 	 */
 	public void changeAnimationSpeed (MouseEvent e) {
-		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue(), generationCount);
-		functions.drawGrid(gol_canvas, slider_size.getValue());
+		functions.newTimeline(gol_canvas, slider_speed.getValue(), zoom.getValue(), generationCount);
+		functions.drawGrid(gol_canvas, zoom.getValue());
 	}
 	
 	@FXML
@@ -58,10 +65,10 @@ public class gui_controller implements Initializable {
 	 * Slider som regulerer storrelsen paa cellene.
 	 */
 	public void changeCellSize(MouseEvent e) {
-		functions.clearCanvas(gol_canvas, slider_size);
-		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue(), generationCount);
-		functions.drawBoard(gol_canvas, slider_size.getValue());
-		functions.drawGrid(gol_canvas, slider_size.getValue());
+		functions.clearCanvas(gol_canvas, zoom);
+		functions.newTimeline(gol_canvas, slider_speed.getValue(), zoom.getValue(), generationCount);
+		functions.drawBoard(gol_canvas, zoom.getValue());
+		functions.drawGrid(gol_canvas, zoom.getValue());
 	}
 	
 	
@@ -71,8 +78,8 @@ public class gui_controller implements Initializable {
 	*/
 	public void startBtnClicked(ActionEvent e) {
 		
-		functions.newTimeline(gol_canvas, slider_speed.getValue(), slider_size.getValue(), generationCount);
-		functions.drawGrid(gol_canvas, slider_size.getValue());
+		functions.newTimeline(gol_canvas, slider_speed.getValue(), zoom.getValue(), generationCount);
+		functions.drawGrid(gol_canvas, zoom.getValue());
 		functions.timeline.play();
 	}
 	
@@ -98,8 +105,8 @@ public class gui_controller implements Initializable {
 		if(functions.timeline != null) {
 			functions.timeline.stop();
 		}
-		functions.clearCanvas(gol_canvas, slider_size);
-		functions.drawGrid(gol_canvas, slider_size.getValue());
+		functions.clearCanvas(gol_canvas, zoom);
+		functions.drawGrid(gol_canvas, zoom.getValue());
 		functions = new GameFunctions();
 	
 	}
@@ -134,8 +141,8 @@ public class gui_controller implements Initializable {
 				alertbox.showAndWait();
 			}
 		}
-		functions.drawBoard(gol_canvas, slider_size.getValue());
-		functions.drawGrid(gol_canvas, slider_size.getValue());
+		functions.drawBoard(gol_canvas, zoom.getValue());
+		functions.drawGrid(gol_canvas, zoom.getValue());
 	}
 	
 	@FXML
@@ -161,8 +168,8 @@ public class gui_controller implements Initializable {
 			alertbox.setContentText("Du lastet inn et brett som er større en det nåværende spillbrettet!");
 			alertbox.showAndWait();
 		}
-		functions.drawBoard(gol_canvas, slider_size.getValue());
-		functions.drawGrid(gol_canvas, slider_size.getValue());
+		functions.drawBoard(gol_canvas, zoom.getValue());
+		functions.drawGrid(gol_canvas, zoom.getValue());
 	}
 	
 	@FXML
@@ -174,9 +181,9 @@ public class gui_controller implements Initializable {
 		double x = e.getX();
 		double y = e.getY();
 		try {
-			functions.blackify(slider_size, x, y);
-			functions.drawBoard(gol_canvas, slider_size.getValue());
-			functions.drawGrid(gol_canvas, slider_size.getValue());
+			functions.blackify(zoom, x, y);
+			functions.drawBoard(gol_canvas, zoom.getValue());
+			functions.drawGrid(gol_canvas, zoom.getValue());
 		}
 		catch (IndexOutOfBoundsException error) {
 			Alert alertbox = new Alert(AlertType.ERROR);
@@ -190,8 +197,41 @@ public class gui_controller implements Initializable {
 	@FXML
 	public void changeColor(ActionEvent e) {
 		functions.colors[1] = colorPicker.getValue();
-		functions.drawBoard(gol_canvas, slider_size.getValue());
-		functions.drawGrid(gol_canvas, slider_size.getValue());
+		functions.drawBoard(gol_canvas, zoom.getValue());
+		functions.drawGrid(gol_canvas, zoom.getValue());
+	}
+	
+	/**
+	 * Denne metoden endrer størrelsen på brettet, forutsatt at brett-typen er av dynamicBoard
+	 * @param e knappetrykk
+	 */
+	@FXML
+	public void changeBoardSize(ActionEvent e) {
+		if (boardSizeField.getText().matches("[0-9]{1,3}")) {
+			int inputSize = Integer.parseInt(boardSizeField.getText());
+			if (inputSize <= 200) {
+				functions.board = new dynamicBoard(inputSize);
+				Alert alertbox = new Alert(AlertType.INFORMATION);
+				alertbox.setTitle("Size Changed");
+				alertbox.setHeaderText("Size Changed");
+				alertbox.setContentText("Størrelsen på brettet er nå endret til "+inputSize);
+				alertbox.showAndWait();
+			}
+			else if (inputSize > 200) {
+				Alert alertbox = new Alert(AlertType.ERROR);
+				alertbox.setTitle("Error");
+				alertbox.setHeaderText("Error");
+				alertbox.setContentText("Du må skrive inn et tall under 201");
+				alertbox.showAndWait();
+			}
+		}
+		else if (!boardSizeField.getText().matches("[0-9]{1,3}")) {
+			Alert alertbox = new Alert(AlertType.ERROR);
+			alertbox.setTitle("Error");
+			alertbox.setHeaderText("Error");
+			alertbox.setContentText("Du må srkive inn et tall som er under 201");
+			alertbox.showAndWait();
+		}
 	}
 	
 }

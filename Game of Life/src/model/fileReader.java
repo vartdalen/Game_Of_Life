@@ -70,7 +70,7 @@ public class fileReader extends java.io.Reader {
 	public void readGameBoard(Reader r, Reader r2, Board board) throws IOException, PatternFormatException {
 		Scanner testFile = new Scanner(r);
 		if (!testFile.nextLine().equals("#Life 1.06")) {
-			throw new PatternFormatException("Du lastet inn noe annet enn Life 1.06 format");
+			throw new PatternFormatException("Du lastet inn noe annet enn Life 1.06 format, eller det er noe feil i deklarasjonen i filen");
 		}
 		int lowest = 0;
 		String[] numbers;

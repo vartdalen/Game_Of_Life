@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+
 /**
  * V�rt dynamiske board kan visualiseres som en ArrayList
  * som inneholder dynamisk antall ArrayLister (y-indekser),
@@ -53,7 +54,7 @@ public class dynamicBoard implements Board {
 		for (int x = 0; x < getLengthX(); x++) {
 			for (int y = 0; y < getLengthY(); y++) {
 				
-				if ((x == (getLengthX()-1) || y == (getLengthY()-1)) && getCellState(x, y) == 1 && getLengthX() < 170) {
+				if ((x == (getLengthX()-1) || y == (getLengthY()-1)) && getCellState(x, y) == 1 && getLengthX() < 200) {
 					int amount = 1;
 					amount++;
 					nextGen = expand(amount, amount, nextGen);

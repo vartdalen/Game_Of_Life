@@ -1,7 +1,7 @@
 
 package model;
 
-//@Deprecated
+@Deprecated
 /**
  *Todimensionalt byte array legger grunnen for et statisk board.
  */

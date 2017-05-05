@@ -20,7 +20,9 @@ public class GameFunctions{
 	private Color backgroundColor = Color.WHITE;
 	public Color cellColor = Color.BLACK;
 	public Color[] colors = new Color[] {backgroundColor, cellColor };
-	public dynamicBoard board = new dynamicBoard(200);
+	
+	//setter initiell brettstørrelse i dynamicboard sin konstruktør
+	public dynamicBoard board = new dynamicBoard(150);
 //	public staticBoard board = new staticBoard();
 	private Cell cell = new Cell();
 	public int generation = 0;
